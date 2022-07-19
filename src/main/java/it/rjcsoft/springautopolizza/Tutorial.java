@@ -1,4 +1,4 @@
-package it.rjcsoft.gherardi.SpringAutoPolizza;
+package it.rjcsoft.springautopolizza;
 
 public class Tutorial {
     private long id;

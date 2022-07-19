@@ -1,4 +1,4 @@
-package it.rjcsoft.gherardi.SpringAutoPolizza;
+package it.rjcsoft.springautopolizza;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
