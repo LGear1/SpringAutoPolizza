@@ -23,9 +23,9 @@ public class TutorialController {
     @Autowired
     TutorialRepository tutorialRepository;
     @GetMapping("/tutorials")
-    public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Auto>> getAllTutorials(@RequestParam(required = false) String title) {
         try {
-            List<Tutorial> tutorials = new ArrayList<Tutorial>();
+            List<Auto> tutorials = new ArrayList<Auto>();
             if (title == null)
                 tutorialRepository.findAll().forEach(tutorials::add);
             else
@@ -39,8 +39,8 @@ public class TutorialController {
         }
     }
     @GetMapping("/tutorials/{id}")
-    public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
-        Tutorial tutorial = tutorialRepository.findById(id);
+    public ResponseEntity<Auto> getTutorialById(@PathVariable("id") long id) {
+        Auto tutorial = tutorialRepository.findById(id);
         if (tutorial != null) {
             return new ResponseEntity<>(tutorial, HttpStatus.OK);
         } else {
@@ -48,17 +48,17 @@ public class TutorialController {
         }
     }
     @PostMapping("/tutorials")
-    public ResponseEntity<String> createTutorial(@RequestBody Tutorial tutorial) {
+    public ResponseEntity<String> createTutorial(@RequestBody Auto tutorial) {
         try {
-            tutorialRepository.save(new Tutorial(tutorial.getTitle(), tutorial.getDescription(), false));
+            tutorialRepository.save(new Auto(tutorial.getTitle(), tutorial.getDescription(), false));
             return new ResponseEntity<>("Tutorial was created successfully.", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PutMapping("/tutorials/{id}")
-    public ResponseEntity<String> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
-        Tutorial _tutorial = tutorialRepository.findById(id);
+    public ResponseEntity<String> updateTutorial(@PathVariable("id") long id, @RequestBody Auto tutorial) {
+        Auto _tutorial = tutorialRepository.findById(id);
         if (_tutorial != null) {
             _tutorial.setId(id);
             _tutorial.setTitle(tutorial.getTitle());
@@ -92,9 +92,9 @@ public class TutorialController {
         }
     }
     @GetMapping("/tutorials/published")
-    public ResponseEntity<List<Tutorial>> findByPublished() {
+    public ResponseEntity<List<Auto>> findByPublished() {
         try {
-            List<Tutorial> tutorials = tutorialRepository.findByPublished(true);
+            List<Auto> tutorials = tutorialRepository.findByPublished(true);
             if (tutorials.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
