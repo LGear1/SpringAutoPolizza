@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class autoDb implements AutoDBInterface {
+
     private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
     private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
     private String QueryDeleteAuto="DELETE FROM test1_auto WHERE targa = ?";
@@ -28,9 +29,13 @@ public class autoDb implements AutoDBInterface {
     private String cf="cf";
     private String iduser="iduser";
 
+    public autoDb(){
+
+    }
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
+
     public int insertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy )  {
 
             return jdbcTemplate.update(QueryInsertAuto,
