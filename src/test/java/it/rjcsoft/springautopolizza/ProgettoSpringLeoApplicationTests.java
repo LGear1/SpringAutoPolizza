@@ -1,4 +1,4 @@
-package it.rjcsoft.gherardi.ProgettoSpringLeo;
+package it.rjcsoft.springautopolizza;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
