@@ -1,5 +1,7 @@
 package it.rjcsoft.springautopolizza;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -8,12 +10,31 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcTutorialRepository implements TutorialRepository {
+public class autoDb implements TutorialRepository {
+    private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
+    private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
+    private String QueryDeleteAuto="DELETE FROM test1_auto WHERE targa = ?";
+    private String QuerySelectAuto="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario WHERE proprietario = ?";
+    private String QuerySelectAutoLimitOffset="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario LIMIT ? OFFSET ?";
+    private String QueryUpdateAuto="Update test1_auto set  marca=?, modello=?, prezzo_auto=?, datarevisione=?, inizio_polizza=?, fine_polizza=? where id=?";
+
+    private String id="id";
+    private String marca="marca";
+    private String modello="modello";
+    private String targa="targa";
+    private String proprietario="proprietario";
+    private String prezzo_auto="prezzo_auto";
+    private String datarevisione="datarevisione";
+    private String inizio_polizza="inizio_polizza";
+    private String fine_polizza="fine_polizza";
+    private String cf="cf";
+    private String iduser="iduser";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
-    public int save(Tutorial tutorial) {
-        return jdbcTemplate.update("INSERT INTO tutorials (title, description, published) VALUES(?,?,?)",
+    public int boolean InsertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy ) throws SQLException {
+        return jdbcTemplate.update(QueryInsertAuto,
                 new Object[] { tutorial.getTitle(), tutorial.getDescription(), tutorial.isPublished() });
     }
     @Override
