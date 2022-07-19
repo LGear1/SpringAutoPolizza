@@ -1,4 +1,4 @@
-package it.rjcsoft.gherardi.ProgettoSpringLeo;
+package it.rjcsoft.gherardi.SpringAutoPolizza;
 
 public class Tutorial {
     private long id;
