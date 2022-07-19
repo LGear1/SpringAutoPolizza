@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class autoDb implements TutorialRepository {
+public class autoDb implements AutoDBInterface {
     private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
     private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
     private String QueryDeleteAuto="DELETE FROM test1_auto WHERE targa = ?";
@@ -35,13 +35,19 @@ public class autoDb implements TutorialRepository {
     @Override
     public int boolean InsertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy ) throws SQLException {
         return jdbcTemplate.update(QueryInsertAuto,
-                new Object[] { tutorial.getTitle(), tutorial.getDescription(), tutorial.isPublished() });
+                new Object[] { Auto.getMarca(), Auto.getModello(), Auto.getTarga(),Auto.getProprietario(), Auto.getDataRevisione(), Auto.getInizio_polizza(), Auto.getFine_polizza()});
     }
+
     @Override
     public int update(Tutorial tutorial) {
         return jdbcTemplate.update("UPDATE tutorials SET title=?, description=?, published=? WHERE id=?",
                 new Object[] { tutorial.getTitle(), tutorial.getDescription(), tutorial.isPublished(), tutorial.getId() });
     }
+
+
+
+
+    /*
     @Override
     public Tutorial findById(Long id) {
         try {
@@ -74,4 +80,6 @@ public class autoDb implements TutorialRepository {
     public int deleteAll() {
         return jdbcTemplate.update("DELETE from tutorials");
     }
+    */
+
 }
