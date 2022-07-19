@@ -59,7 +59,7 @@ public class Auto {
         return prezzo_auto;
     }
     public void setDatarevisione(Date datarevisione) { this.datarevisione = datarevisione; }
-    public Date getDatarevisione () { return datarevisione; }
+    public Date getDatarevisione() { return datarevisione; }
     public void setInizio_polizza(Timestamp inizio_polizza) { this.inizio_polizza = inizio_polizza; }
     public Timestamp getInizio_polizza() { return inizio_polizza; }
     public void setFine_polizza_polizza(Timestamp fine_polizza) { this.fine_polizza = fine_polizza; }

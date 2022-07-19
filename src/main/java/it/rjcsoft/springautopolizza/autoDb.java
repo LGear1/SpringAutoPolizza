@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,21 +31,38 @@ public class autoDb implements AutoDBInterface {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
-    public int boolean InsertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy ) throws SQLException {
-        return jdbcTemplate.update(QueryInsertAuto,
-                new Object[] { Auto.getMarca(), Auto.getModello(), Auto.getTarga(),Auto.getProprietario(), Auto.getDataRevisione(), Auto.getInizio_polizza(), Auto.getFine_polizza()});
+    public int insertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy )  {
+
+            return jdbcTemplate.update(QueryInsertAuto,
+                    new Object[] { brand, model, l_Plate,owner, carPrice, revisionDate, startInsurancePolicy, endInsurancePolicy});
+
     }
 
+    @Override
+    public boolean deleteAuto(String l_plate) {
+        return false;
+    }
+
+    @Override
+    public List<Auto> selectAuto(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Auto> selectAllAuto() {
+        return null;
+    }
+
+    @Override
+    public boolean updateAuto(String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
+        return false;
+    }
+    /*
     @Override
     public int update(Tutorial tutorial) {
         return jdbcTemplate.update("UPDATE tutorials SET title=?, description=?, published=? WHERE id=?",
                 new Object[] { tutorial.getTitle(), tutorial.getDescription(), tutorial.isPublished(), tutorial.getId() });
     }
-
-
-
-
-    /*
     @Override
     public Tutorial findById(Long id) {
         try {
@@ -80,6 +95,6 @@ public class autoDb implements AutoDBInterface {
     public int deleteAll() {
         return jdbcTemplate.update("DELETE from tutorials");
     }
-    */
 
+     */
 }
