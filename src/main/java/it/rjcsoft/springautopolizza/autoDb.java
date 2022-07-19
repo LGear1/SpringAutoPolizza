@@ -31,6 +31,7 @@ public class autoDb implements AutoDBInterface {
 
     public autoDb(){
 
+
     }
     @Autowired
     private JdbcTemplate jdbcTemplate;
