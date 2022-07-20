@@ -5,6 +5,7 @@ import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import it.rjcsoft.springautopolizza.repository.AutoRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,14 @@ public class AutoController {
         Timestamp finePolizza2=Timestamp.valueOf(request.getFine_polizza());
         Date date=stringToDate(request.getDatarevisione());
         Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), date, inizioPolizza2, finePolizza2);
-        autoRepository.insertAuto(auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), auto.getDatarevisione(), auto.getInizio_polizza(), auto.getFine_polizza());
+        try {
+            autoRepository.insertAuto(auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), auto.getDatarevisione(), auto.getInizio_polizza(), auto.getFine_polizza());
+        } catch (DuplicateKeyException f){
+            System.out.println("chiave duplicata");
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
     private Date stringToDate(String ToBeConverted)throws  ParseException{
