@@ -6,6 +6,8 @@ import java.util.List;
 
 import it.rjcsoft.springautopolizza.model.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +27,13 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     public int insertAuto(String brand, String model, String l_plate, int owner, double carPrice, Date revisionDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy)  {
 
+        try {
             return jdbcTemplate.update(QueryInsertAuto,
                     new Object[] { brand, model, l_plate, owner, carPrice, revisionDate, s_insurancePolicy, f_insurancePolicy});
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -48,8 +55,8 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
     public int updateAuto(int id,String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
-         return jdbcTemplate.update(QueryInsertAuto,
-                new Object[] { brand, model, carPrice, s_insurancePolicy, f_insurancePolicy,id});
+         return jdbcTemplate.update(QueryUpdateAuto,
+                new Object[] { brand, model, carPrice, revisioneDate, s_insurancePolicy, f_insurancePolicy, id});
     }
 
 }
