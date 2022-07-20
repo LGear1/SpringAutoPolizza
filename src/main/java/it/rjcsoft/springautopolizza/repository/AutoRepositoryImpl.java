@@ -1,14 +1,17 @@
-package it.rjcsoft.springautopolizza;
+package it.rjcsoft.springautopolizza.repository;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+
+import it.rjcsoft.springautopolizza.Auto;
+import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class autoDb implements AutoDBInterface {
+public class AutoRepositoryImpl implements AutoRepository {
 
     private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
     private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
@@ -29,7 +32,7 @@ public class autoDb implements AutoDBInterface {
     private String cf="cf";
     private String iduser="iduser";
 
-    public autoDb(){
+    public AutoRepositoryImpl(){
 
 
     }
@@ -63,44 +66,5 @@ public class autoDb implements AutoDBInterface {
     public boolean updateAuto(String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
         return false;
     }
-    /*
-    @Override
-    public int update(Tutorial tutorial) {
-        return jdbcTemplate.update("UPDATE tutorials SET title=?, description=?, published=? WHERE id=?",
-                new Object[] { tutorial.getTitle(), tutorial.getDescription(), tutorial.isPublished(), tutorial.getId() });
-    }
-    @Override
-    public Tutorial findById(Long id) {
-        try {
-            Tutorial tutorial = jdbcTemplate.queryForObject("SELECT * FROM tutorials WHERE id=?",
-                    BeanPropertyRowMapper.newInstance(Tutorial.class), id);
-            return tutorial;
-        } catch (IncorrectResultSizeDataAccessException e) {
-            return null;
-        }
-    }
-    @Override
-    public int deleteById(Long id) {
-        return jdbcTemplate.update("DELETE FROM tutorials WHERE id=?", id);
-    }
-    @Override
-    public List<Tutorial> findAll() {
-        return jdbcTemplate.query("SELECT * from tutorials", BeanPropertyRowMapper.newInstance(Tutorial.class));
-    }
-    @Override
-    public List<Tutorial> findByPublished(boolean published) {
-        return jdbcTemplate.query("SELECT * from tutorials WHERE published=?",
-                BeanPropertyRowMapper.newInstance(Tutorial.class), published);
-    }
-    @Override
-    public List<Tutorial> findByTitleContaining(String title) {
-        String q = "SELECT * from tutorials WHERE title ILIKE '%" + title + "%'";
-        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Tutorial.class));
-    }
-    @Override
-    public int deleteAll() {
-        return jdbcTemplate.update("DELETE from tutorials");
-    }
 
-     */
 }
