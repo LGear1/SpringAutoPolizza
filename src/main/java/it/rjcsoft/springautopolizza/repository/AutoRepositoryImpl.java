@@ -20,11 +20,6 @@ public class AutoRepositoryImpl implements AutoRepository {
     private String QuerySelectAutoLimitOffset="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario LIMIT ? OFFSET ?";
     private String QueryUpdateAuto="Update test1_auto set  marca=?, modello=?, prezzo_auto=?, datarevisione=?, inizio_polizza=?, fine_polizza=? where id=?";
 
-
-    public AutoRepositoryImpl(){
-
-
-    }
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
@@ -32,7 +27,7 @@ public class AutoRepositoryImpl implements AutoRepository {
     public int insertAuto(String brand, String model, String l_plate, int owner, double carPrice, Date revisionDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy)  {
 
             return jdbcTemplate.update(QueryInsertAuto,
-                    new Object[] { brand, model, l_plate,owner, carPrice, revisionDate, s_insurancePolicy, f_insurancePolicy});
+                    new Object[] { brand, model, l_plate, owner, carPrice, revisionDate, s_insurancePolicy, f_insurancePolicy});
 
     }
 
