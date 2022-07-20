@@ -46,9 +46,11 @@ public class AutoRepositoryImpl implements AutoRepository {
         return null;
     }
 
+
     @Override
-    public boolean updateAuto(String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
-        return false;
+    public int updateAuto(int id,String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
+         return jdbcTemplate.update(QueryInsertAuto,
+                new Object[] { brand, model, carPrice, s_insurancePolicy, f_insurancePolicy,id});
     }
 
 }
