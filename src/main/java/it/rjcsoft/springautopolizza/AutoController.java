@@ -16,14 +16,14 @@ public class AutoController {
     private JdbcTemplate jdbcTemplate;
     @GetMapping("/")
 
-    public void callinsert() throws ParseException {
+    public void callInsert() throws ParseException {
         autoDb a = new autoDb();
         Timestamp inizioPolizza=Timestamp.valueOf("2022-01-01 00:00:00.0");
         Timestamp finePolizza=Timestamp.valueOf("2022-01-10 00:00:00.0");
-        Date date=StringToDate("2022-02-02");
+        Date date=stringToDate("2022-02-02");
         a.insertAuto("Lexus","Lfa","EA876II",2,700000,date, inizioPolizza ,finePolizza);
     }
-    private static Date StringToDate(String ToBeConverted)throws  ParseException{
+    private static Date stringToDate(String ToBeConverted)throws  ParseException{
         java.util.Date date_casted=null;
         Date dateSql=null;
 
