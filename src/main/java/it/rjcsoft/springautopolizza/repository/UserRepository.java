@@ -1,6 +1,9 @@
 package it.rjcsoft.springautopolizza.repository;
 
 import java.sql.Date;
+import java.util.List;
+
+import it.rjcsoft.springautopolizza.model.User;
 
 public interface UserRepository {
     int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role);

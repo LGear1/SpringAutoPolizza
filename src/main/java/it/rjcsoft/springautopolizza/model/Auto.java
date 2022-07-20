@@ -1,7 +1,7 @@
 package it.rjcsoft.springautopolizza.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 
 public class Auto {
     private int id;
@@ -9,13 +9,12 @@ public class Auto {
     private String modello;
     private String targa;
     private int proprietario;
-    private int prezzo_auto;
+    private double prezzo_auto;
     private Date datarevisione;
     private Timestamp inizio_polizza;
     private Timestamp fine_polizza;
 
-    public Auto(int id, String marca, String modello, String targa, int proprietario, int prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
-        this.id = id;
+    public Auto(String marca, String modello, String targa, int proprietario, double prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
         this.marca = marca;
         this.modello = modello;
         this.targa = targa;
@@ -54,8 +53,8 @@ public class Auto {
     public int getProprietario() {
         return proprietario;
     }
-    public void setPrezzo_auto(int prezzo_auto) { this.prezzo_auto = prezzo_auto; }
-    public int getPrezzo_auto() {
+    public void setPrezzo_auto(double prezzo_auto) { this.prezzo_auto = prezzo_auto; }
+    public double getPrezzo_auto() {
         return prezzo_auto;
     }
     public void setDatarevisione(Date datarevisione) { this.datarevisione = datarevisione; }

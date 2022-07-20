@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface AutoRepository {
-    int insertAuto(String brand, String model, String l_plate, int owner, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy);
+    int insertAuto(String brand, String model, String l_plate, int owner, double carPrice, Date revisionDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy);
     boolean deleteAuto(String l_plate);
     List<Auto> selectAuto(int id);
     List<Auto> selectAllAuto();
