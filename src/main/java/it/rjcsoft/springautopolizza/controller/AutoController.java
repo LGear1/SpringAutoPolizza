@@ -1,5 +1,8 @@
 package it.rjcsoft.springautopolizza.controller;
 
+import com.sun.deploy.security.JarSignature;
+import it.rjcsoft.springautopolizza.dto.DeletAutoRequest;
+import it.rjcsoft.springautopolizza.dto.DeletAutoRequest;
 import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
 import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
@@ -7,6 +10,8 @@ import it.rjcsoft.springautopolizza.repository.AutoRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +26,7 @@ import java.text.SimpleDateFormat;
 public class AutoController {
     @Autowired
     private AutoRepository autoRepository;
+
     @PostMapping(path = "insertauto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +43,6 @@ public class AutoController {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
     private Date stringToDate(String ToBeConverted)throws  ParseException{
         java.util.Date date_casted=null;
@@ -49,4 +54,17 @@ public class AutoController {
 
         return dateSql;
     }
+
+    @DeleteMapping(path = "deleteauto",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean callDelet(@RequestBody DeletAutoRequest request) throws ParseException{
+
+        if(autoRepository.deleteAuto(request.getId()) == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }

@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import it.rjcsoft.springautopolizza.model.Auto;
-import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,7 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
     private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
-    private String QueryDeleteAuto="DELETE FROM test1_auto WHERE targa = ?";
+    private String QueryDeleteAuto="DELETE FROM test1_auto WHERE id = ?";
     private String QuerySelectAuto="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario WHERE proprietario = ?";
     private String QuerySelectAutoLimitOffset="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario LIMIT ? OFFSET ?";
     private String QueryUpdateAuto="Update test1_auto set  marca=?, modello=?, prezzo_auto=?, datarevisione=?, inizio_polizza=?, fine_polizza=? where id=?";
@@ -32,8 +31,9 @@ public class AutoRepositoryImpl implements AutoRepository {
     }
 
     @Override
-    public boolean deleteAuto(String l_plate) {
-        return false;
+    public int deleteAuto(int id) {
+        Object[] args = new Object[] {id};
+        return jdbcTemplate.update(QueryDeleteAuto, id);
     }
 
     @Override
