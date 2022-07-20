@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-import it.rjcsoft.springautopolizza.Auto;
+import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,7 +40,7 @@ public class AutoRepositoryImpl implements AutoRepository {
     private JdbcTemplate jdbcTemplate;
     @Override
 
-    public int insertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy )  {
+    public int insertAuto(String brand, String model, String l_Plate, int owner, double carPrice, Date revisionDate, Timestamp startInsurancePolicy, Timestamp endInsurancePolicy)  {
 
             return jdbcTemplate.update(QueryInsertAuto,
                     new Object[] { brand, model, l_Plate,owner, carPrice, revisionDate, startInsurancePolicy, endInsurancePolicy});

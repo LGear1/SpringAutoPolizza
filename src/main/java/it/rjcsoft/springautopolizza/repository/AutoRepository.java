@@ -1,6 +1,6 @@
 package it.rjcsoft.springautopolizza.repository;
 
-import it.rjcsoft.springautopolizza.Auto;
+import it.rjcsoft.springautopolizza.model.Auto;
 
 import java.sql.Date;
 import java.sql.Timestamp;

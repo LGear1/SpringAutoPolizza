@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
@@ -13,16 +15,22 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+
 @RestController
 public class AutoController {
-    @Autowired
-    private it.rjcsoft.springautopolizza.repository.AutoRepository AutoRepository;
-    @GetMapping("/")
-    public void callInsert() throws ParseException {
-        Timestamp inizioPolizza=Timestamp.valueOf("2022-01-01 00:00:00.0");
-        Timestamp finePolizza=Timestamp.valueOf("2022-01-10 00:00:00.0");
+    @PostMapping("/InsertAuto")
+    public void callInsert(@RequestParam(name="brand") String brand,
+                           @RequestParam(name="model") String model,
+                           @RequestParam(name="l_plate") String l_plate,
+                           @RequestParam(name="owner") int owner,
+                           @RequestParam(name="carPrice") Double carPrice,
+                           @RequestParam(name="revisionDate") Date revisionDate,
+                           @RequestParam(name="inizioPolizza") String inizioPolizza,
+                           @RequestParam(name="finePolizza") String finePolizza) throws ParseException {
+        Timestamp inizioPolizza2=Timestamp.valueOf(inizioPolizza);
+        Timestamp finePolizza2=Timestamp.valueOf(finePolizza);
         Date date=stringToDate("2022-02-02");
-        AutoRepository.insertAuto("Lexus","Lfa","EA876II",2,700000,date, inizioPolizza ,finePolizza);
+        AutoRepositoryImpl.insertAuto(brand,model,l_plate,owner,carPrice,revisionDate, inizioPolizza2 ,finePolizza2);
 
     }
     private static Date stringToDate(String ToBeConverted)throws  ParseException{
