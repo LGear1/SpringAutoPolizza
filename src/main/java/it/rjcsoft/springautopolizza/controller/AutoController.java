@@ -24,8 +24,8 @@ public class AutoController {
         Timestamp finePolizza2=Timestamp.valueOf(request.getFine_polizza());
         Date date=stringToDate(request.getDatarevisione());
         Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), date, inizioPolizza2, finePolizza2);
-
-        AutoRepositoryImpl.insertAuto(auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), auto.getDatarevisione(), auto.getInizio_polizza(), auto.getFine_polizza());
+        AutoRepositoryImpl autorep = new AutoRepositoryImpl();
+        autorep.insertAuto(auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), auto.getDatarevisione(), auto.getInizio_polizza(), auto.getFine_polizza());
 
     }
     private Date stringToDate(String ToBeConverted)throws  ParseException{
