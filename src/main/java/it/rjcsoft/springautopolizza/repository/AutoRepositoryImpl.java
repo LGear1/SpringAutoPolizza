@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import it.rjcsoft.springautopolizza.model.Auto;
-import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -46,9 +45,11 @@ public class AutoRepositoryImpl implements AutoRepository {
         return null;
     }
 
+
     @Override
-    public boolean updateAuto(String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
-        return false;
+    public int updateAuto(int id,String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
+         return jdbcTemplate.update(QueryInsertAuto,
+                new Object[] { brand, model, carPrice, s_insurancePolicy, f_insurancePolicy,id});
     }
 
 }
