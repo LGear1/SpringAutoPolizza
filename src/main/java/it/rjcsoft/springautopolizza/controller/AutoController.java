@@ -1,4 +1,4 @@
-package it.rjcsoft.springautopolizza;
+package it.rjcsoft.springautopolizza.controller;
 
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
 import it.rjcsoft.springautopolizza.repository.AutoRepositoryImpl;

@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<postgreSQL.version>42.4.0</postgreSQL.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,7 +30,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.4.0</version>
+			<version>${postgreSQL.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -44,5 +45,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
