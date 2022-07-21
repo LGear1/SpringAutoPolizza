@@ -59,6 +59,23 @@ public class AutoController {
         return dateSql;
     }
 
+    @DeleteMapping(path="deleteAuto/{id}",
+            consumes=MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<BaseResponse> callDeleteAuto(@PathVariable("id") int id ){
+        try{
+            Auto auto = new Auto();
+            auto.setId(id);
+            AutoRest auR;
+            auR = auB.buildRestFromAuto(auto);
+            int result = autoRepository.deleteAuto(auR.getId());
+            if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
+        }catch(Exception e){
+            return buildBaseResponse(e);
+        }
+        return buildBaseResponse(null);
+    }
+
     @PutMapping(path="updateAuto/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
@@ -114,10 +131,10 @@ public class AutoController {
 
     }
 
-    private ResponseEntity<AutoResponse> buildAutoResponse(Exception e, List<Auto> auto){
+    private ResponseEntity<AutoResponse> buildAutoResponse(Exception e, List<Auto> listaAuto){
         if(e == null){
             AutoResponse response = new AutoResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
-            response.setAuto(auB.buildAutoRestList(auto));
+            response.setListaAuto(auB.buildAutoRestList(listaAuto));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else if(e instanceof SQLWarning){
             AutoResponse response = new AutoResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
