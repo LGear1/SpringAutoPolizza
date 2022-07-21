@@ -20,7 +20,7 @@ public class AutoRepositoryImpl implements AutoRepository {
     private String QuerySelectAuto="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario WHERE proprietario = ?";
     private String QuerySelectAutoLimitOffset="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario LIMIT ? OFFSET ?";
     private String QueryUpdateAuto="Update test1_auto set  marca=?, modello=?, prezzo_auto=?, datarevisione=?, inizio_polizza=?, fine_polizza=? where id=?";
-
+    private String QuerySelectAllAuto = "SELECT * FROM test1_auto";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -54,9 +54,9 @@ public class AutoRepositoryImpl implements AutoRepository {
         auto.setTarga(rs.getString("targa"));
         auto.setProprietario(rs.getInt("proprietario"));
         auto.setPrezzo_auto(rs.getDouble("prezzo_auto"));
-        auto.setDatarevisione(rs.getDate("datarevisione"));
-        auto.setInizio_polizza(rs.getTimestamp("inizio_polizza"));
-        auto.setFine_polizza_polizza(rs.getTimestamp("fine_polizza"));
+        auto.setDatarevisione(""+rs.getDate("datarevisione"));
+        auto.setInizio_polizza(""+rs.getTimestamp("inizio_polizza"));
+        auto.setFine_polizza_polizza(""+rs.getTimestamp("fine_polizza"));
         return auto;
     };
 
@@ -78,15 +78,15 @@ public class AutoRepositoryImpl implements AutoRepository {
         auto.setTarga(rs.getString("targa"));
         auto.setProprietario(rs.getInt("proprietario"));
         auto.setPrezzo_auto(rs.getDouble("prezzo_auto"));
-        auto.setDatarevisione(rs.getDate("datarevisione"));
-        auto.setInizio_polizza(rs.getTimestamp("inizio_polizza"));
-        auto.setFine_polizza_polizza(rs.getTimestamp("fine_polizza"));
+        auto.setDatarevisione(""+rs.getDate("datarevisione"));
+        auto.setInizio_polizza(""+rs.getTimestamp("inizio_polizza"));
+        auto.setFine_polizza_polizza(""+rs.getTimestamp("fine_polizza"));
         return auto;
     };
 
     @Override
     public List<Auto> selectAllAuto() {
-        return jdbcTemplate.query(QuerySelectAuto, rowMapper);
+        return jdbcTemplate.query(QuerySelectAllAuto, rowMapper);
 
     }
 

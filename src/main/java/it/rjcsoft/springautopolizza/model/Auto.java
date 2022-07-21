@@ -10,9 +10,10 @@ public class Auto {
     private String targa;
     private int proprietario;
     private double prezzo_auto;
-    private Date datarevisione;
-    private Timestamp inizio_polizza;
-    private Timestamp fine_polizza;
+    private String datarevisione;
+    private String inizio_polizza;
+    private String fine_polizza;
+
     public Auto(){
         this.id=0;
         this.marca=null;
@@ -25,11 +26,20 @@ public class Auto {
         this.fine_polizza=null;
     }
 
-    public Auto(String marca, String modello, String targa, int proprietario, double prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
+    public Auto(String marca, String modello, String targa, int proprietario, double prezzo_auto, String datarevisione, String inizio_polizza, String fine_polizza) {
         this.marca = marca;
         this.modello = modello;
         this.targa = targa;
         this.proprietario = proprietario;
+        this.prezzo_auto = prezzo_auto;
+        this.datarevisione = datarevisione;
+        this.inizio_polizza = inizio_polizza;
+        this.fine_polizza = fine_polizza;
+    }
+
+    public Auto(String marca, String modello, double prezzo_auto, String datarevisione, String inizio_polizza, String fine_polizza) {
+        this.marca = marca;
+        this.modello = modello;
         this.prezzo_auto = prezzo_auto;
         this.datarevisione = datarevisione;
         this.inizio_polizza = inizio_polizza;
@@ -68,12 +78,12 @@ public class Auto {
     public double getPrezzo_auto() {
         return prezzo_auto;
     }
-    public void setDatarevisione(Date datarevisione) { this.datarevisione = datarevisione; }
-    public Date getDatarevisione() { return datarevisione; }
-    public void setInizio_polizza(Timestamp inizio_polizza) { this.inizio_polizza = inizio_polizza; }
-    public Timestamp getInizio_polizza() { return inizio_polizza; }
-    public void setFine_polizza_polizza(Timestamp fine_polizza) { this.fine_polizza = fine_polizza; }
-    public Timestamp getFine_polizza() { return fine_polizza; }
+    public void setDatarevisione(String datarevisione) { this.datarevisione = datarevisione; }
+    public String getDatarevisione() { return datarevisione; }
+    public void setInizio_polizza(String inizio_polizza) { this.inizio_polizza = inizio_polizza; }
+    public String getInizio_polizza() { return inizio_polizza; }
+    public void setFine_polizza_polizza(String fine_polizza) { this.fine_polizza = fine_polizza; }
+    public String getFine_polizza() { return fine_polizza; }
 
     @Override
     public String toString() {

@@ -1,27 +1,22 @@
 package it.rjcsoft.springautopolizza.controller;
 
-
-import it.rjcsoft.springautopolizza.dto.EnumStatusResponse;
-import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
-import it.rjcsoft.springautopolizza.dto.InsuranceResponse;
-import it.rjcsoft.springautopolizza.dto.UpdateAutoRequest;
+import it.rjcsoft.springautopolizza.dto.*;
 import it.rjcsoft.springautopolizza.model.Auto;
+import it.rjcsoft.springautopolizza.modelrest.AutoRest;
+import it.rjcsoft.springautopolizza.modelrest.builder.AutoBuilder;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
-import it.rjcsoft.springautopolizza.repository.AutoRepositoryImpl;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.sql.Date;
 import java.sql.SQLWarning;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,17 +25,22 @@ import java.util.List;
 public class AutoController {
     @Autowired
     private AutoRepository autoRepository;
+    @Autowired
+    private AutoBuilder auB;
     @PostMapping(path = "insertauto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InsuranceResponse> callInsert(@RequestBody InsertAutoRequest request) throws ParseException {
-        ResponseEntity<InsuranceResponse> responseEntity = null;
-        Timestamp inizioPolizza2=Timestamp.valueOf(request.getInizio_polizza());
-        Timestamp finePolizza2=Timestamp.valueOf(request.getFine_polizza());
-        Date date=stringToDate(request.getDatarevisione());
-        Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), date, inizioPolizza2, finePolizza2);
+    public ResponseEntity<BaseResponse> callInsert(@RequestBody InsertAutoRequest request) throws ParseException {
+        ResponseEntity<BaseResponse> responseEntity = null;
+        Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), request.getDatarevisione(), request.getInizio_polizza(), request.getFine_polizza());
+        AutoBuilder autoB = new AutoBuilder();
+        AutoRest auR = new AutoRest();
+        auR = autoB.buildRestFromAuto(auto);
+        Timestamp inizioPolizza2=Timestamp.valueOf(auR.getInizio_polizza());
+        Timestamp finePolizza2=Timestamp.valueOf(auR.getFine_polizza());
+        Date date=stringToDate(auR.getDatarevisione());
         try {
-            autoRepository.insertAuto(auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), auto.getDatarevisione(), auto.getInizio_polizza(), auto.getFine_polizza());
+            autoRepository.insertAuto(auR.getMarca(), auR.getModello(), auR.getTarga(), auR.getProprietario(), auR.getPrezzo_auto(), date, inizioPolizza2, finePolizza2);
         }catch (Exception e) {
             e.printStackTrace();
             return buildBaseResponse(e);
@@ -61,14 +61,17 @@ public class AutoController {
     @PutMapping(path="updateAuto/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<InsuranceResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody UpdateAutoRequest request)    {
-        Timestamp inizioPolizza2=Timestamp.valueOf(request.getInizio_polizza());
-        Timestamp finePolizza2=Timestamp.valueOf(request.getFine_polizza());
-        Date date= null;
+    public ResponseEntity<BaseResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody UpdateAutoRequest request)    {
         try {
-            date = stringToDate(request.getDatarevisione());
-
-            int result = autoRepository.updateAuto(id,request.getMarca(), request.getModello(), request.getProprietario(), date, inizioPolizza2, finePolizza2);
+            Auto auto = new Auto(request.getMarca(), request.getModello(), request.getPrezzo_auto(), request.getDatarevisione(), request.getInizio_polizza(), request.getFine_polizza());
+            auto.setId(id);
+            AutoBuilder autoB = new AutoBuilder();
+            AutoRest auR;
+            auR = autoB.buildRestFromAuto(auto);
+            Timestamp inizioPolizza2=Timestamp.valueOf(auR.getInizio_polizza());
+            Timestamp finePolizza2=Timestamp.valueOf(auR.getFine_polizza());
+            Date date = stringToDate(auR.getDatarevisione());
+            int result = autoRepository.updateAuto(auR.getId(), auR.getMarca(), auR.getModello(), auR.getProprietario(), date, inizioPolizza2, finePolizza2);
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch (Exception e) {
             e.printStackTrace();
@@ -80,24 +83,42 @@ public class AutoController {
     @GetMapping(path="selectAllAuto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void callSelectAll(){
-        List<Auto> a= autoRepository.selectAllAuto();
+    public ResponseEntity<AutoResponse> callSelectAll(){
+        try{
+            List<Auto> a = autoRepository.selectAllAuto();
+            return buildAutoResponse(null, a);
+        }catch(Exception e){
+            return buildAutoResponse(e, null);
 
-
+        }
 
     }
 
-
-    private ResponseEntity<InsuranceResponse> buildBaseResponse(Exception e){
+    private ResponseEntity<AutoResponse> buildAutoResponse(Exception e, List<Auto> auto){
         if(e == null){
-            InsuranceResponse response = new InsuranceResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
+            AutoResponse response = new AutoResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
+            response.setAuto(auB.buildAutoRestList(auto));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else if(e instanceof SQLWarning){
-            InsuranceResponse response = new InsuranceResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
+            AutoResponse response = new AutoResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         else{
-            InsuranceResponse response = new InsuranceResponse(EnumStatusResponse.INTERNAL_SERVER_ERROR.getStatus(), EnumStatusResponse.INTERNAL_SERVER_ERROR.getMessage() + " - "+ e.getMessage());
+            AutoResponse response = new AutoResponse(EnumStatusResponse.INTERNAL_SERVER_ERROR.getStatus(), EnumStatusResponse.INTERNAL_SERVER_ERROR.getMessage() + " - "+ e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<BaseResponse> buildBaseResponse(Exception e){
+        if(e == null){
+            BaseResponse response = new BaseResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else if(e instanceof SQLWarning){
+            BaseResponse response = new BaseResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        else{
+            BaseResponse response = new BaseResponse(EnumStatusResponse.INTERNAL_SERVER_ERROR.getStatus(), EnumStatusResponse.INTERNAL_SERVER_ERROR.getMessage() + " - "+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

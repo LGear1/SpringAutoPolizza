@@ -11,9 +11,9 @@ public class AutoRest {
     private String targa;
     private int proprietario;
     private double prezzo_auto;
-    private Date datarevisione;
-    private Timestamp inizio_polizza;
-    private Timestamp fine_polizza;
+    private String datarevisione;
+    private String inizio_polizza;
+    private String fine_polizza;
 
     public AutoRest() {
         this.id=0;
@@ -27,7 +27,7 @@ public class AutoRest {
         this.fine_polizza=null;
     }
 
-    public AutoRest(int id, String marca, String modello, String targa, int proprietario, double prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
+    public AutoRest(int id, String marca, String modello, String targa, int proprietario, double prezzo_auto, String datarevisione, String inizio_polizza, String fine_polizza) {
         this.id = id;
         this.marca = marca;
         this.modello = modello;
@@ -87,27 +87,27 @@ public class AutoRest {
         this.prezzo_auto = prezzo_auto;
     }
 
-    public Date getDatarevisione() {
+    public String getDatarevisione() {
         return datarevisione;
     }
 
-    public void setDatarevisione(Date datarevisione) {
+    public void setDatarevisione(String datarevisione) {
         this.datarevisione = datarevisione;
     }
 
-    public Timestamp getInizio_polizza() {
+    public String getInizio_polizza() {
         return inizio_polizza;
     }
 
-    public void setInizio_polizza(Timestamp inizio_polizza) {
+    public void setInizio_polizza(String inizio_polizza) {
         this.inizio_polizza = inizio_polizza;
     }
 
-    public Timestamp getFine_polizza() {
+    public String getFine_polizza() {
         return fine_polizza;
     }
 
-    public void setFine_polizza(Timestamp fine_polizza) {
+    public void setFine_polizza(String fine_polizza) {
         this.fine_polizza = fine_polizza;
     }
 }
