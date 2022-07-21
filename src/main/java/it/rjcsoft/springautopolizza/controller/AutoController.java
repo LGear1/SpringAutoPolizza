@@ -1,6 +1,6 @@
 package it.rjcsoft.springautopolizza.controller;
 
-import com.google.gson.Gson;
+
 import it.rjcsoft.springautopolizza.dto.EnumStatusResponse;
 import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
 import it.rjcsoft.springautopolizza.dto.InsuranceResponse;
