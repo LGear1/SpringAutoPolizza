@@ -53,10 +53,24 @@ public class UserRepositoryImpl implements UserRepository{
         user.setDateOfBirth(rs.getDate("dateOfBirth"));
         return user;
     };
+
+    RowMapper<User> rowMapper2 = (rs, rowNum) -> {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        return user;
+    };
     @Override
     public List<User> selectUser(String cf){
         Object[] args = new Object[] {cf};
         return jdbcTemplate.query(QuerySelectUser2, rowMapper ,args);
+    }
+
+    @Override
+    public int selectUser2(String cf){
+        Object[] args = new Object[] {cf};
+        List<User> u = jdbcTemplate.query(QuerySelectUser2, rowMapper2 ,args);
+        int id = u.get(1).getId();
+        return id;
     }
 
     @Override

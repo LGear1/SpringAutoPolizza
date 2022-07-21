@@ -9,6 +9,7 @@ public interface UserRepository {
     int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role);
     int deleteUser(String cf);
     List<User> selectUser(String cf);
+    int selectUser2(String cf);
     List<User> selectAllUsers();
     boolean updateUser(String name, String surname, String cf, Date dateOfBirth, int role);
 
