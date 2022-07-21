@@ -6,17 +6,17 @@ import java.util.List;
 
 public class AutoResponse extends BaseResponse{
 
-    private List<AutoRest> auto;
+    private List<AutoRest> listaAuto;
 
     public AutoResponse(String statusResponse, String message) {
         super(statusResponse, message);
     }
 
-    public List<AutoRest> getAuto() {
-        return auto;
+    public List<AutoRest> getListaAuto() {
+        return listaAuto;
     }
 
-    public void setAuto(List<AutoRest> auto) {
-        this.auto = auto;
+    public void setListaAuto(List<AutoRest> listaAuto) {
+        this.listaAuto = listaAuto;
     }
 }
