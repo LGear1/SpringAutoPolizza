@@ -1,6 +1,6 @@
 package it.rjcsoft.springautopolizza.dto;
 
-public class DeletAutoRequest {
+public class DeleteAutoRequest {
 
     private int id;
 
