@@ -76,18 +76,18 @@ public class AutoController {
         }
         return buildBaseResponse(null);
     }
-/*
+
     @GetMapping(path="selectAllAuto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AutoResponse> callSelectAll(){
+    public void callSelectAll(){
         List<Auto> a= autoRepository.selectAllAuto();
 
 
-        return  null;
+
     }
 
- */
+
     private ResponseEntity<InsuranceResponse> buildBaseResponse(Exception e){
         if(e == null){
             InsuranceResponse response = new InsuranceResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
