@@ -13,6 +13,17 @@ public class Auto {
     private Date datarevisione;
     private Timestamp inizio_polizza;
     private Timestamp fine_polizza;
+    public Auto(){
+        this.id=0;
+        this.marca=null;
+        this.modello=null;
+        this.targa=null;
+        this.proprietario=0;
+        this.prezzo_auto=0;
+        this.datarevisione=null;
+        this.inizio_polizza=null;
+        this.fine_polizza=null;
+    }
 
     public Auto(String marca, String modello, String targa, int proprietario, double prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
         this.marca = marca;

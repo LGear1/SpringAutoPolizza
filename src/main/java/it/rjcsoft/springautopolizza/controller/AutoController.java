@@ -1,5 +1,6 @@
 package it.rjcsoft.springautopolizza.controller;
 
+import com.google.gson.Gson;
 import it.rjcsoft.springautopolizza.dto.EnumStatusResponse;
 import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
 import it.rjcsoft.springautopolizza.dto.InsuranceResponse;
@@ -20,6 +21,8 @@ import java.sql.SQLWarning;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -73,7 +76,18 @@ public class AutoController {
         }
         return buildBaseResponse(null);
     }
+/*
+    @GetMapping(path="selectAllAuto",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AutoResponse> callSelectAll(){
+        List<Auto> a= autoRepository.selectAllAuto();
 
+
+        return  null;
+    }
+
+ */
     private ResponseEntity<InsuranceResponse> buildBaseResponse(Exception e){
         if(e == null){
             InsuranceResponse response = new InsuranceResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
