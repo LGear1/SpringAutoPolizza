@@ -3,6 +3,7 @@ package it.rjcsoft.springautopolizza.model;
 import java.util.Date;
 
 public class User {
+    private int id;
     private String name;
 
     private String surname;
@@ -17,7 +18,8 @@ public class User {
 
     private int role;
 
-    public User(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role){
+    public User(int id,String name, String surname, String email, String password, String cf, Date dateOfBirth, int role){
+        this.id=id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -27,10 +29,19 @@ public class User {
         this.role = role;
     }
 
+
+
     public User() {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
