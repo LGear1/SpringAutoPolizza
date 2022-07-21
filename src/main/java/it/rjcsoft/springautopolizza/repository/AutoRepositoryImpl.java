@@ -46,7 +46,9 @@ public class AutoRepositoryImpl implements AutoRepository {
         Object[] args = new Object[] {id};
         return jdbcTemplate.update(QueryDeleteAuto, args);
     }
-    RowMapper<Auto> rowMapper2 = (rs, rowNum) -> {
+
+
+    RowMapper<Auto> rowMapper = (rs, rowNum) -> {
         Auto auto = new Auto();
         auto.setId(rs.getInt("id"));
         auto.setMarca(rs.getString("marca"));
@@ -64,25 +66,12 @@ public class AutoRepositoryImpl implements AutoRepository {
     @Override
     public List<Auto> selectAuto(int id){
         Object[] args = new Object[] {id};
-        return jdbcTemplate.query(QuerySelectAuto2, rowMapper2,args);
+        return jdbcTemplate.query(QuerySelectAuto2, rowMapper ,args);
     }
 
 
 
 
-    RowMapper<Auto> rowMapper = (rs, rowNum) -> {
-        Auto auto = new Auto();
-        auto.setId(rs.getInt("id"));
-        auto.setMarca(rs.getString("marca"));
-        auto.setModello(rs.getString("modello"));
-        auto.setTarga(rs.getString("targa"));
-        auto.setProprietario(rs.getInt("proprietario"));
-        auto.setPrezzo_auto(rs.getDouble("prezzo_auto"));
-        auto.setDatarevisione(""+rs.getDate("datarevisione"));
-        auto.setInizio_polizza(""+rs.getTimestamp("inizio_polizza"));
-        auto.setFine_polizza_polizza(""+rs.getTimestamp("fine_polizza"));
-        return auto;
-    };
 
     @Override
     public List<Auto> selectAllAuto() {
