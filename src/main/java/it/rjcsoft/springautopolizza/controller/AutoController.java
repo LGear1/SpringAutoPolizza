@@ -1,6 +1,5 @@
 package it.rjcsoft.springautopolizza.controller;
 
-import com.google.gson.Gson;
 import it.rjcsoft.springautopolizza.dto.EnumStatusResponse;
 import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
 import it.rjcsoft.springautopolizza.dto.InsuranceResponse;
@@ -75,6 +74,17 @@ public class AutoController {
             return buildBaseResponse(e);
         }
         return buildBaseResponse(null);
+    }
+
+/*
+    @GetMapping(path="selectAuto",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AutoResponse> callSelectAll(){
+        Lt<Auto> a= autoRepository.selectAuto();
+
+
+        return  null;
     }
 /*
     @GetMapping(path="selectAllAuto",

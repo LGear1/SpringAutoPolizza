@@ -2,13 +2,10 @@ package it.rjcsoft.springautopolizza.repository;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import it.rjcsoft.springautopolizza.model.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,13 +44,31 @@ public class AutoRepositoryImpl implements AutoRepository {
     @Override
     public int deleteAuto(int id) {
         Object[] args = new Object[] {id};
-        return jdbcTemplate.update(QueryDeleteAuto, id);
+        return jdbcTemplate.update(QueryDeleteAuto, args);
     }
+    RowMapper<Auto> rowMapper2 = (rs, rowNum) -> {
+        Auto auto = new Auto();
+        auto.setId(rs.getInt("id"));
+        auto.setMarca(rs.getString("marca"));
+        auto.setModello(rs.getString("modello"));
+        auto.setTarga(rs.getString("targa"));
+        auto.setProprietario(rs.getInt("proprietario"));
+        auto.setPrezzo_auto(rs.getDouble("prezzo_auto"));
+        auto.setDatarevisione(rs.getDate("datarevisione"));
+        auto.setInizio_polizza(rs.getTimestamp("inizio_polizza"));
+        auto.setFine_polizza_polizza(rs.getTimestamp("fine_polizza"));
+        return auto;
+    };
+
 
     @Override
-    public List<Auto> selectAuto(int id) {
-        return null;
+    public List<Auto> selectAuto(int id){
+        Object[] args = new Object[] {id};
+        return jdbcTemplate.query(QuerySelectAuto2, rowMapper2,args);
     }
+
+
+
 
     RowMapper<Auto> rowMapper = (rs, rowNum) -> {
         Auto auto = new Auto();

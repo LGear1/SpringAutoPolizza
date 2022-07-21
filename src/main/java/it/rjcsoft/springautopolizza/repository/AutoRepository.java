@@ -11,6 +11,7 @@ public interface AutoRepository {
     int deleteAuto(int id);
 
     List<Auto> selectAuto(int id);
+
     List<Auto> selectAllAuto();
 
     int updateAuto(int id, String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy);
