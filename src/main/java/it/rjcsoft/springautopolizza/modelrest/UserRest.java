@@ -14,9 +14,9 @@ public class UserRest {
 
     private Date dateOfBirth;
 
-    private int role;
+    private String role;
 
-    public UserRest(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role){
+    public UserRest(String name, String surname, String email, String password, String cf, Date dateOfBirth, String role){
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -78,11 +78,11 @@ public class UserRest {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
