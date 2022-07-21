@@ -1,15 +1,9 @@
 package it.rjcsoft.springautopolizza.controller;
 
-import it.rjcsoft.springautopolizza.dto.EnumStatusResponse;
-import it.rjcsoft.springautopolizza.dto.InsertAutoRequest;
-import it.rjcsoft.springautopolizza.dto.InsuranceResponse;
-import it.rjcsoft.springautopolizza.dto.UpdateAutoRequest;
+import it.rjcsoft.springautopolizza.dto.*;
 import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
-import it.rjcsoft.springautopolizza.repository.AutoRepositoryImpl;
-import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,16 +52,29 @@ public class AutoController {
     @PutMapping(path="updateAuto/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<InsuranceResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody UpdateAutoRequest request)    {
-        Timestamp inizioPolizza2=Timestamp.valueOf(request.getInizio_polizza());
-        Timestamp finePolizza2=Timestamp.valueOf(request.getFine_polizza());
-        Date date= null;
+    public ResponseEntity<InsuranceResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody UpdateAutoRequest request) {
+        Timestamp inizioPolizza2 = Timestamp.valueOf(request.getInizio_polizza());
+        Timestamp finePolizza2 = Timestamp.valueOf(request.getFine_polizza());
+        Date date = null;
         try {
             date = stringToDate(request.getDatarevisione());
 
-            int result = autoRepository.updateAuto(id,request.getMarca(), request.getModello(), request.getProprietario(), date, inizioPolizza2, finePolizza2);
-            if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
-        }catch (Exception e) {
+            int result = autoRepository.updateAuto(id, request.getMarca(), request.getModello(), request.getProprietario(), date, inizioPolizza2, finePolizza2);
+            if (result != 1) throw new SQLWarning("Auto non trovata!!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return buildBaseResponse(e);
+        }
+        return buildBaseResponse(null);
+    }
+    @DeleteMapping(path = "deleteAuto/{id}",
+            consumes=MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<InsuranceResponse> callDeleteAuto(@PathVariable("id") int id){
+        try{
+            int result = autoRepository.deleteAuto(id);
+            if(result != 1) throw new SQLWarning("Auto non trovata!!!");
+        }catch (Exception e){
             e.printStackTrace();
             return buildBaseResponse(e);
         }
