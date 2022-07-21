@@ -1,5 +1,6 @@
 package it.rjcsoft.springautopolizza.controller;
 
+import ch.qos.logback.core.CoreConstants;
 import it.rjcsoft.springautopolizza.dto.*;
 import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.modelrest.AutoRest;
@@ -86,10 +87,29 @@ public class AutoController {
     public ResponseEntity<AutoResponse> callSelectAll(){
         try{
             List<Auto> a = autoRepository.selectAllAuto();
+            if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
             return buildAutoResponse(null, a);
         }catch(Exception e){
             return buildAutoResponse(e, null);
 
+        }
+
+    }
+
+    @GetMapping(path="selectAuto/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AutoResponse> callSelectAll(@PathVariable("id") int id){
+        try{
+            Auto au = new Auto();
+            au.setId(id);
+            AutoRest auR = auB.buildRestFromAuto(au);
+            List<Auto> a = autoRepository.selectAuto(auR.getId());
+            if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
+            return buildAutoResponse(null, a);
+        }catch(Exception e){
+            System.out.println(e);
+            return buildAutoResponse(e, null);
         }
 
     }
