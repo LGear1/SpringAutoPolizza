@@ -2,6 +2,7 @@ package it.rjcsoft.springautopolizza.repository;
 
 import it.rjcsoft.springautopolizza.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.Date;
@@ -9,29 +10,28 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository{
 
+    private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,?)";
     private String QueryInsertUser="Insert into test1_users (nome, cognome, cf, datanascita, ruolo_id) VALUES (?,?,?,?,?)";
-    private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
-
-    private String QuerySelectUser="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.id = ?";
-
-    private String QuerySelectUser2="Select * from test1_users tu WHERE tu.cf = ?";
-
-    private String QueryUpdateUser="Update test1_users set nome=?, cf=? where id=?";
-
-    private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     @Override
     public int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role) {
-        return 0;
+        try {
+            jdbcTemplate.update(QueryInsertCredenziali,
+                    new Object[] {email, password });
+            jdbcTemplate.update(QueryInsertUser,
+                    new Object[] {name, surname, cf, dateOfBirth, role  });
+            return 1;
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public int deleteUser(String cf) {
-        Object[] args = new Object[] {cf};
-        return jdbcTemplate.update(QueryDeleteUser, args);
+    public boolean deleteUser(String cf) {
+        return false;
     }
 
     @Override
