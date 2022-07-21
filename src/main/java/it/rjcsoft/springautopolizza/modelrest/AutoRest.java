@@ -15,6 +15,18 @@ public class AutoRest {
     private Timestamp inizio_polizza;
     private Timestamp fine_polizza;
 
+    public AutoRest() {
+        this.id=0;
+        this.marca=null;
+        this.modello=null;
+        this.targa=null;
+        this.proprietario=0;
+        this.prezzo_auto=0;
+        this.datarevisione=null;
+        this.inizio_polizza=null;
+        this.fine_polizza=null;
+    }
+
     public AutoRest(int id, String marca, String modello, String targa, int proprietario, double prezzo_auto, Date datarevisione, Timestamp inizio_polizza, Timestamp fine_polizza) {
         this.id = id;
         this.marca = marca;
