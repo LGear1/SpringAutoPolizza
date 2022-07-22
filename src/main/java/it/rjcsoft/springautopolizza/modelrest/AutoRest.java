@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class AutoRest {
-
     private int id;
     private String marca;
     private String modello;

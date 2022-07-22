@@ -69,10 +69,6 @@ public class AutoRepositoryImpl implements AutoRepository {
         return jdbcTemplate.query(QuerySelectAuto2, rowMapper ,args);
     }
 
-
-
-
-
     @Override
     public List<Auto> selectAllAuto() {
         return jdbcTemplate.query(QuerySelectAllAuto, rowMapper);
