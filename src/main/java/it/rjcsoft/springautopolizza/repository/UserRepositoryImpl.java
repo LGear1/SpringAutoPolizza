@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     private String QuerySelectUser="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.id = ?";
 
-    private String QuerySelectUser2="Select * from test1_users tu WHERE tu.cf = ?";
+    private String QuerySelectUser2="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.cf = ?";
     private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -52,16 +52,13 @@ public class UserRepositoryImpl implements UserRepository{
 
     RowMapper<User> rowMapper = (rs, rowNum) -> {
         User user = new User();
-        Ruolo ruolo = new Ruolo();
         user.setName(rs.getString("nome"));
         user.setSurname(rs.getString("cognome"));
         user.setRole(rs.getInt("ruolo_id"));
         user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
+        user.setPassword(rs.getString("pwd"));
         user.setCf(rs.getString("cf"));
         user.setDateOfBirth(rs.getDate("datanascita"));
-        ruolo.setRuolo(rs.getString("ruolo"));
-        ruolo.setId(rs.getInt("ruolo_id"));
         return user;
     };
 
@@ -72,8 +69,8 @@ public class UserRepositoryImpl implements UserRepository{
     };
     @Override
     public List<User> selectUser(String cf){
-        Object[] args = new Object[] {cf};
-        return jdbcTemplate.query(QuerySelectUser, rowMapper ,args);
+        return jdbcTemplate.query(QuerySelectUser2, rowMapper,
+                new Object[] {cf});
     }
 
     @Override

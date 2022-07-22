@@ -2,11 +2,14 @@ package it.rjcsoft.springautopolizza.repository;
 
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class RuoloRepositoryImpl implements RuoloRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -18,7 +21,8 @@ public class RuoloRepositoryImpl implements RuoloRepository {
         ruolo.setId(rs.getInt("id"));
         return ruolo;
     };
-    public List<Ruolo> selectAllRuoli(String a){
-        return jdbcTemplate.query(QueryRuoli,rowMapper);
+    @Override
+    public List<Ruolo> selectAllRuoli(){
+        return jdbcTemplate.query(QueryRuoli, rowMapper);
     }
 }

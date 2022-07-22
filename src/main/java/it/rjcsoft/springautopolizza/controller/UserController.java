@@ -9,9 +9,11 @@ import it.rjcsoft.springautopolizza.modelrest.UserRest;
 
 import it.rjcsoft.springautopolizza.modelrest.builder.UserBuilder;
 
+import it.rjcsoft.springautopolizza.repository.RuoloRepository;
 import it.rjcsoft.springautopolizza.repository.RuoloRepositoryImpl;
 import it.rjcsoft.springautopolizza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,12 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private RuoloRepository ruoloRepository;
+    @Autowired
     private UserBuilder usB;
+
+    public UserController() {
+    }
 
     @PostMapping(path = "insertuser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -74,22 +81,22 @@ public class UserController {
         return buildBaseResponse(null);
     }
 
-    @GetMapping(path="selectUser/{id}",
+    @GetMapping(path="selectUser/{cf}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> callSelectAuto(@PathVariable("cf") String cf){
+    public ResponseEntity<UserResponse> callSelectUser(@PathVariable("cf") String cf){
         try{
             User user = new User();
             user.setCf(cf);
             UserRest usR = new UserRest();
             usR.setCf(user.getCf());
             List<User> a = userRepository.selectUser(usR.getCf());
-            List<Ruolo> r = RuoloRepositoryImpl.selectAllRuoli(null);
+            List<Ruolo> r = ruoloRepository.selectAllRuoli();
             if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
             return buildUserResponse(null, a, r );
         }catch(Exception e){
             System.out.println(e);
-
+            return buildUserResponse(e, null, null);
         }
 
     }
