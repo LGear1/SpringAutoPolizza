@@ -92,7 +92,7 @@ public class UserController {
             usR.setCf(user.getCf());
             List<User> a = userRepository.selectUser(usR.getCf());
             List<Ruolo> r = ruoloRepository.selectAllRuoli();
-            if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
+            if(a.size() == 0) throw new SQLWarning("Utente non trovato");
             return buildUserResponse(null, a, r );
         }catch(Exception e){
             System.out.println(e);
@@ -107,7 +107,7 @@ public class UserController {
             response.setListaUser(usB.buildRestFromUserList(listaUser, listaRuoli));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else if(e instanceof SQLWarning){
-            UserResponse response = new UserResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
+            UserResponse response = new UserResponse(EnumStatusResponse.USER_NOT_FOUND.getStatus(), EnumStatusResponse.USER_NOT_FOUND.getMessage() + " - "+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         else{
