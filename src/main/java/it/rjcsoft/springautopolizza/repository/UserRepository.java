@@ -16,5 +16,5 @@ public interface UserRepository {
 
     List<User> selectAllUsers();
 
-    int updateUser(String name, String surname, String cf, Date dateOfBirth, int role);
+    int updateUser(String name, String surname, String cf, Date dateOfBirth, int role, int id);
 }

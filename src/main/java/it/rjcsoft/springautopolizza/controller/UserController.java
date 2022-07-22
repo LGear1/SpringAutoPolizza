@@ -6,8 +6,10 @@ import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
 
+import it.rjcsoft.springautopolizza.modelrest.AutoRest;
 import it.rjcsoft.springautopolizza.modelrest.UserRest;
 
+import it.rjcsoft.springautopolizza.modelrest.builder.AutoBuilder;
 import it.rjcsoft.springautopolizza.modelrest.builder.UserBuilder;
 
 import it.rjcsoft.springautopolizza.repository.RuoloRepository;
@@ -20,8 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.sql.SQLWarning;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -117,6 +122,47 @@ public class UserController {
 
     }
 
+    private Date stringToDate(String ToBeConverted)throws  ParseException{
+        java.util.Date date_casted=null;
+        Date dateSql=null;
+
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        date_casted=sdf.parse(ToBeConverted);
+        dateSql=new Date(date_casted.getTime());
+
+        return dateSql;
+    }
+    @PutMapping(path="updateUser/{id}",
+            consumes=MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<BaseResponse> callAggiornaUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest request){
+        try {
+            User user = new User();
+            user.setId(id);
+            user.setName(request.getName());
+            user.setSurname(request.getSurname());
+            user.setCf(request.getCf());
+            user.setDateOfBirth(request.getDateOfBirth());
+            user.setRole(request.getRole());
+            Ruolo ruolo = new Ruolo();
+            ruolo.setId(request.getRole());
+            if(request.getRole() == 1){
+                ruolo.setRuolo("Admin");
+            }else{
+                ruolo.setRuolo("Guest");
+            }
+            UserBuilder usB = new UserBuilder();
+            UserRest auR;
+            auR = usB.buildRestFromUser(user, ruolo);
+            int result = userRepository.updateUser(auR.getName(), auR.getSurname(), auR.getCf(), auR.getDateOfBirth(),auR.getIdRole(), auR.getId());
+            if(result != 1)  throw  new SQLWarning("User non trovato!!");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return buildBaseResponse(e);
+        }
+        return buildBaseResponse(null);
+    }
+
     private ResponseEntity<UserResponse> buildUserResponse(Exception e, List<User> listaUser, List<Ruolo> listaRuoli){
         if(e == null){
             UserResponse response = new UserResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
@@ -137,7 +183,7 @@ public class UserController {
             BaseResponse response = new BaseResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }else if(e instanceof SQLWarning){
-            BaseResponse response = new BaseResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
+            BaseResponse response = new BaseResponse(EnumStatusResponse.USER_NOT_FOUND.getStatus(), EnumStatusResponse.USER_NOT_FOUND.getMessage() + " - "+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         else{

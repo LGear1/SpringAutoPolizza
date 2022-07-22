@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository{
     private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,?)";
     private String QueryInsertUser="Insert into test1_users (nome, cognome, cf, datanascita, ruolo_id) VALUES (?,?,?,?,?)";
 
-    private String QueryUpdateUser="Update test1_users set nome=?, cf=? where id=?";
+    private String QueryUpdateUser="Update test1_users set nome=?, cognome=?, cf=?, datanascita=?, ruolo_id=?  where id=?";
     private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
 
     private String QuerySelectUser="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.id = ?";
@@ -100,10 +100,10 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public int updateUser(String name, String surname, String cf, Date dateOfBirth, int role) {
+    public int updateUser(String name, String surname, String cf, Date dateOfBirth, int role, int id) {
 
         return jdbcTemplate.update(QueryUpdateUser,
-                new Object[] { name, surname, cf, dateOfBirth, role});
+                new Object[] { name, surname, cf, dateOfBirth, role, id});
     }
 
 }
