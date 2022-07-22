@@ -45,12 +45,13 @@ public class UserRepositoryImpl implements UserRepository{
 
     RowMapper<User> rowMapper = (rs, rowNum) -> {
         User user = new User();
-        user.setName(rs.getString("Nome"));
-        user.setSurname(rs.getString("Surname"));
-        user.setEmail(rs.getString("Email"));
-        user.setPassword(rs.getString("Password"));
+        user.setName(rs.getString("nome"));
+        user.setSurname(rs.getString("cognome"));
+        user.setRole(rs.getInt("ruolo"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
         user.setCf(rs.getString("cf"));
-        user.setDateOfBirth(rs.getDate("dateOfBirth"));
+        user.setDateOfBirth(rs.getDate("datanascita"));
         return user;
     };
 
@@ -62,7 +63,7 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public List<User> selectUser(String cf){
         Object[] args = new Object[] {cf};
-        return jdbcTemplate.query(QuerySelectUser2, rowMapper ,args);
+        return jdbcTemplate.query(QuerySelectUser, rowMapper ,args);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class UserRepositoryImpl implements UserRepository{
         user.setId(rs.getInt("id"));
         user.setName(rs.getString("nome"));
         user.setSurname(rs.getString("cognome"));
-        user.setEmail(rs.getString("nome"));
+        user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         user.setCf(rs.getString("cf"));
         user.setDateOfBirth(rs.getDate("datanascita"));
