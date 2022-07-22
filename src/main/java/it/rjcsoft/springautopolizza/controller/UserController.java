@@ -2,7 +2,6 @@ package it.rjcsoft.springautopolizza.controller;
 
 import it.rjcsoft.springautopolizza.dto.*;
 
-import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
 
@@ -10,6 +9,7 @@ import it.rjcsoft.springautopolizza.modelrest.UserRest;
 
 import it.rjcsoft.springautopolizza.modelrest.builder.UserBuilder;
 
+import it.rjcsoft.springautopolizza.repository.RuoloRepositoryImpl;
 import it.rjcsoft.springautopolizza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping(path = "insertuser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> callInsert(@RequestBody InsertUserRequest request) throws ParseException {
+    public ResponseEntity<BaseResponse> callInsertUser(@RequestBody InsertUserRequest request) throws ParseException {
         ResponseEntity<BaseResponse> responseEntity = null;
         User user = new User(request.getNome(), request.getCognome(), request.getEmail(), request.getPassword(), request.getCf(), request.getDateOfBirth(), request.getRuolo());
         Ruolo ruolo = new Ruolo();
@@ -55,6 +55,43 @@ public class UserController {
             return buildBaseResponse(e);
         }
         return buildBaseResponse(null);
+    }
+
+    @DeleteMapping(path="deleteUser/{id}",
+            consumes=MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<BaseResponse> calldeleteUser(@PathVariable("id") int id ){
+        try{
+            User user = new User();
+            user.setId(id);
+            UserRest usR = new UserRest();
+            usR.setId(user.getId());
+            int result = userRepository.deleteUser(usR.getId());
+            if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
+        }catch(Exception e){
+            return buildBaseResponse(e);
+        }
+        return buildBaseResponse(null);
+    }
+
+    @GetMapping(path="selectUser/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BaseResponse> callSelectAuto(@PathVariable("cf") String cf){
+        try{
+            User user = new User();
+            user.setCf(cf);
+            UserRest usR = new UserRest();
+            usR.setCf(user.getCf());
+            List<User> a = userRepository.selectUser(usR.getCf());
+            List<Ruolo> r = RuoloRepositoryImpl.selectAllRuoli(null);
+            if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
+            return buildUserResponse(null, a, r );
+        }catch(Exception e){
+            System.out.println(e);
+
+        }
+
     }
 
     private ResponseEntity<UserResponse> buildUserResponse(Exception e, List<User> listaUser, List<Ruolo> listaRuoli){

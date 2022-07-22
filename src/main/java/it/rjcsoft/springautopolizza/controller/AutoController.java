@@ -101,7 +101,7 @@ public class AutoController {
     @GetMapping(path="selectAllAuto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AutoResponse> callSelectAll(){
+    public ResponseEntity<AutoResponse> callSelectAuto(){
         try{
             List<Auto> a = autoRepository.selectAllAuto();
             if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");

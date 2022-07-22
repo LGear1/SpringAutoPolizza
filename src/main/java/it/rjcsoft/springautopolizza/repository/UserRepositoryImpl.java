@@ -45,8 +45,8 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public int deleteUser(String cf) {
-        Object[] args = new Object[] {cf};
+    public int deleteUser(int id) {
+        Object[] args = new Object[] {id};
         return jdbcTemplate.update(QueryDeleteUser, args);
     }
 

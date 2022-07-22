@@ -7,7 +7,8 @@ import it.rjcsoft.springautopolizza.model.User;
 
 public interface UserRepository {
     int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role);
-    int deleteUser(String cf);
+
+    int deleteUser(int id);
 
     List<User> selectUser(String cf);
 
