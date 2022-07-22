@@ -2,11 +2,21 @@ package it.rjcsoft.springautopolizza.dto;
 
 import java.sql.Date;
 public class UpdateUserRequest {
+
+    private int id;
     private String name;
     private String surname;
     private String cf;
     private Date dateOfBirth;
     private int role;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

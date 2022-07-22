@@ -135,7 +135,7 @@ public class UserController {
     @PutMapping(path="updateUser/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<BaseResponse> callAggiornaUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest request){
+    public ResponseEntity<BaseResponse> callUpdateUser(@PathVariable("id") int id, @RequestBody UpdateUserRequest request){
         try {
             User user = new User();
             user.setId(id);
