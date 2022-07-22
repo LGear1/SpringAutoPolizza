@@ -2,6 +2,7 @@ package it.rjcsoft.springautopolizza.controller;
 
 import it.rjcsoft.springautopolizza.dto.*;
 
+import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
 
@@ -97,6 +98,21 @@ public class UserController {
         }catch(Exception e){
             System.out.println(e);
             return buildUserResponse(e, null, null);
+        }
+
+    }
+    @GetMapping(path="selectAllUser",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserResponse> callSelectAuto(){
+        try{
+            List<User> a = userRepository.selectAllUsers();
+            List<Ruolo> r = ruoloRepository.selectAllRuoli();
+            if(a.size() == 0) throw new SQLWarning("Utente non trovato");
+            return buildUserResponse(null, a, r);
+        }catch(Exception e){
+            return buildUserResponse(e, null, null);
+
         }
 
     }

@@ -87,7 +87,7 @@ public class UserRepositoryImpl implements UserRepository{
         user.setName(rs.getString("nome"));
         user.setSurname(rs.getString("cognome"));
         user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("password"));
+        user.setPassword(rs.getString("pwd"));
         user.setCf(rs.getString("cf"));
         user.setDateOfBirth(rs.getDate("datanascita"));
         user.setRole(rs.getInt("ruolo_id"));
@@ -95,9 +95,8 @@ public class UserRepositoryImpl implements UserRepository{
     };
 
     @Override
-    public List<User> selectAllUsers(int ruoloid, int idcred) {
-
-        return jdbcTemplate.query(QuerySelectAllUsers, rowMapper3,ruoloid,idcred);
+    public List<User> selectAllUsers() {
+        return jdbcTemplate.query(QuerySelectAllUsers, rowMapper3);
     }
 
     @Override
