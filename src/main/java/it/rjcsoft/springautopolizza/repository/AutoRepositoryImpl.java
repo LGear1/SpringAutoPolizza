@@ -47,7 +47,6 @@ public class AutoRepositoryImpl implements AutoRepository {
         return jdbcTemplate.update(QueryDeleteAuto, args);
     }
 
-
     RowMapper<Auto> rowMapper = (rs, rowNum) -> {
         Auto auto = new Auto();
         auto.setId(rs.getInt("id"));
