@@ -9,6 +9,10 @@ public class Ruolo {
         this.ruolo = ruolo;
     }
 
+    public Ruolo() {
+
+    }
+
     public int getId() {
         return id;
     }

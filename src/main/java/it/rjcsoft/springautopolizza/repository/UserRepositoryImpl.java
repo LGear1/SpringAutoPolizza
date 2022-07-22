@@ -1,10 +1,14 @@
 package it.rjcsoft.springautopolizza.repository;
 
+import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -22,14 +26,17 @@ public class UserRepositoryImpl implements UserRepository{
 
     private String QuerySelectUser2="Select * from test1_users tu WHERE tu.cf = ?";
     private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
+    @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role) {
         try {
-            jdbcTemplate.update(QueryInsertCredenziali,
-                    new Object[] {email, password });
             jdbcTemplate.update(QueryInsertUser,
                     new Object[] {name, surname, cf, dateOfBirth, role  });
+            int id = selectUser2(cf);
+            jdbcTemplate.update(QueryInsertCredenziali,
+                    new Object[] {email, password, id });
             return 1;
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
@@ -45,13 +52,16 @@ public class UserRepositoryImpl implements UserRepository{
 
     RowMapper<User> rowMapper = (rs, rowNum) -> {
         User user = new User();
+        Ruolo ruolo = new Ruolo();
         user.setName(rs.getString("nome"));
         user.setSurname(rs.getString("cognome"));
-        user.setRole(rs.getInt("ruolo"));
+        user.setRole(rs.getInt("ruolo_id"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         user.setCf(rs.getString("cf"));
         user.setDateOfBirth(rs.getDate("datanascita"));
+        ruolo.setRuolo(rs.getString("ruolo"));
+        ruolo.setId(rs.getInt("ruolo_id"));
         return user;
     };
 
@@ -70,7 +80,7 @@ public class UserRepositoryImpl implements UserRepository{
     public int selectUser2(String cf){
         Object[] args = new Object[] {cf};
         List<User> u = jdbcTemplate.query(QuerySelectUser2, rowMapper2 ,args);
-        return u.get(1).getId();
+        return u.get(0).getId();
 
     }
 

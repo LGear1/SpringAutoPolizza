@@ -1,6 +1,6 @@
 package it.rjcsoft.springautopolizza.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class User {
     private int id;
@@ -33,6 +33,16 @@ public class User {
 
     public User() {
 
+    }
+
+    public User(String nome, String cognome, String email, String password, String cf, Date dateOfBirth, int ruolo) {
+        this.name = nome;
+        this.surname = cognome;
+        this.email = email;
+        this.password = password;
+        this.cf = cf;
+        this.dateOfBirth = dateOfBirth;
+        this.role = ruolo;
     }
 
     public int getId() {
@@ -97,6 +107,8 @@ public class User {
     public void setRole(int role) {
         this.role = role;
     }
+
+
 
     @Override
     public String toString() {

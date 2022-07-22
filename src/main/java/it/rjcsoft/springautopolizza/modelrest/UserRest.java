@@ -1,5 +1,5 @@
 package it.rjcsoft.springautopolizza.modelrest;
-import java.util.Date;
+import java.sql.Date;
 
 public class UserRest {
     private String name;
@@ -14,6 +14,7 @@ public class UserRest {
 
     private Date dateOfBirth;
 
+    private int idRole;
     private String role;
 
     public UserRest(String name, String surname, String email, String password, String cf, Date dateOfBirth, String role){
@@ -70,7 +71,7 @@ public class UserRest {
         this.cf = cf;
     }
 
-    public Date getDateOfBirth() {
+    public java.sql.Date getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -86,4 +87,11 @@ public class UserRest {
         this.role = role;
     }
 
+    public int getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
+    }
 }
