@@ -7,9 +7,13 @@ import it.rjcsoft.springautopolizza.model.User;
 
 public interface UserRepository {
     int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role);
-    boolean deleteUser(String cf);
-    List<User> selectUser(int id);
-    List<User> selectAllUsers(int ruoloid, int idcred);
-    int updateUser(String name, String surname, String cf, Date dateOfBirth, int role);
+    int deleteUser(String cf);
 
+    List<User> selectUser(String cf);
+
+    int selectUser2(String cf);
+
+    List<User> selectAllUsers(int ruoloid, int idcred);
+
+    int updateUser(String name, String surname, String cf, Date dateOfBirth, int role);
 }

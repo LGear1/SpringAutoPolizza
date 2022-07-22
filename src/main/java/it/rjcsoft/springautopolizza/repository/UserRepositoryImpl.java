@@ -1,8 +1,6 @@
 package it.rjcsoft.springautopolizza.repository;
 
-import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,11 +15,13 @@ public class UserRepositoryImpl implements UserRepository{
     private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,?)";
     private String QueryInsertUser="Insert into test1_users (nome, cognome, cf, datanascita, ruolo_id) VALUES (?,?,?,?,?)";
 
+    private String QueryUpdateUser="Update test1_users set nome=?, cf=? where id=?";
     private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
 
     private String QuerySelectUser="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.id = ?";
 
     private String QuerySelectUser2="Select * from test1_users tu WHERE tu.cf = ?";
+    private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
     private JdbcTemplate jdbcTemplate;
     @Override
     public int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role) {
@@ -73,13 +73,30 @@ public class UserRepositoryImpl implements UserRepository{
 
     }
 
+    RowMapper<User> rowMapper3 = (rs, rowNum) -> {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setName(rs.getString("nome"));
+        user.setSurname(rs.getString("cognome"));
+        user.setEmail(rs.getString("nome"));
+        user.setPassword(rs.getString("password"));
+        user.setCf(rs.getString("cf"));
+        user.setDateOfBirth(rs.getDate("datanascita"));
+        user.setRole(rs.getInt("ruolo_id"));
+        return user;
+    };
+
     @Override
-    public List<User> selectAllUsers() {
-        return null;
+    public List<User> selectAllUsers(int ruoloid, int idcred) {
+
+        return jdbcTemplate.query(QuerySelectAllUsers, rowMapper3,ruoloid,idcred);
     }
 
     @Override
-    public boolean updateUser(String name, String surname, String cf, Date dateOfBirth, int role) {
-        return false;
+    public int updateUser(String name, String surname, String cf, Date dateOfBirth, int role) {
+
+        return jdbcTemplate.update(QueryUpdateUser,
+                new Object[] { name, surname, cf, dateOfBirth, role});
     }
+
 }
