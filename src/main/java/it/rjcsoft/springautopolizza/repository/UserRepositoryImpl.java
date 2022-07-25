@@ -23,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository{
     private String QueryUpdateUser="Update test1_users set nome=?, cognome=?, cf=?, datanascita=?, ruolo_id=?  where id=?";
     private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
     private String QuerySelectUser2="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.cf = ?";
+    private String QuerySelectUserID = "SELECT * FROM test1_users WHERE cf = ?";
     private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
 
     @Autowired
@@ -61,21 +62,22 @@ public class UserRepositoryImpl implements UserRepository{
         return userR;
     };
 
-    RowMapper<UserRest> rowMapper2 = (rs, rowNum) -> {
-        UserRest user = new UserRest();
-        user.setId(rs.getInt("id"));
-        return user;
-    };
     @Override
     public List<UserRest> selectUser(String cf){
         return jdbcTemplate.query(QuerySelectUser2, rowMapper,
                 new Object[] {cf});
     }
 
+    RowMapper<UserRest> rowMapper2 = (rs, rowNum) -> {
+        UserRest user = new UserRest();
+        user.setId(rs.getInt("id"));
+        return user;
+    };
+
     @Override
     public int selectUserID(String cf){
         Object[] args = new Object[] {cf};
-        List<UserRest> u = jdbcTemplate.query(QuerySelectUser2, rowMapper2 ,args);
+        List<UserRest> u = jdbcTemplate.query(QuerySelectUserID, rowMapper2 ,args);
         return u.get(0).getId();
     }
 

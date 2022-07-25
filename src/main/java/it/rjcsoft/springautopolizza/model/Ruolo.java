@@ -14,7 +14,7 @@ public class Ruolo {
             case 1:{    //Caso Admin
                 this.ruolo = ADMIN;
                 this.id = 1;
-            }
+            }break;
             case 2:{    //Caso Guest
                 this.ruolo = GUEST;
                 this.id = 2;

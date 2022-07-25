@@ -21,9 +21,9 @@ public class User {
         this.id = u.getId();
         this.name = u.getName();
         this.surname = u.getSurname();
-        this.cf = cf;
-        this.dateOfBirth = dateOfBirth;
-        this.role = role;
+        this.cf = u.getCf();
+        this.dateOfBirth = u.getDateOfBirth();
+        this.role = u.getIdRole();
     }
 
 

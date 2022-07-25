@@ -8,7 +8,7 @@ public class Credenziali {
     private String pwd;
 
     public Credenziali(UserRest u) {
-        this.iduser = u.getId();
+        this.iduser = u.getIdRole();
         this.email = u.getEmail();
         this.pwd = u.getPassword();
     }
