@@ -22,6 +22,10 @@ public class Ruolo {
         }
     }
 
+    public Ruolo(){
+
+    }
+
     public int getId() {
         return id;
     }
