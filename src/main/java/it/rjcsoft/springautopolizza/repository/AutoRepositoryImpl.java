@@ -2,6 +2,8 @@ package it.rjcsoft.springautopolizza.repository;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import it.rjcsoft.springautopolizza.model.Auto;
@@ -29,16 +31,22 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
 
-    public int insertAuto(String brand, String model, String l_plate, int owner, double carPrice, Date revisionDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy)  {
-
+    public int insertAuto(Auto auto)  {
+        Timestamp inizioPolizza=null;
+        Timestamp finePolizza=null;
+        Date date=null;
         try {
-            return jdbcTemplate.update(QueryInsertAuto,
-                    new Object[] { brand, model, l_plate, owner, carPrice, revisionDate, s_insurancePolicy, f_insurancePolicy});
+           inizioPolizza=Timestamp.valueOf(auto.getInizio_polizza());
+           finePolizza=Timestamp.valueOf(auto.getFine_polizza());
+           date=stringToDate(auto.getDatarevisione());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
+        return jdbcTemplate.update(QueryInsertAuto,
+                new Object[] { auto.getMarca(), auto.getModello(), auto.getTarga(), auto.getProprietario(), auto.getPrezzo_auto(), date, inizioPolizza, finePolizza});
     }
 
     @Override
@@ -75,9 +83,29 @@ public class AutoRepositoryImpl implements AutoRepository {
     }
 
     @Override
-    public int updateAuto(int id,String brand, String model, double carPrice, Date revisioneDate, Timestamp s_insurancePolicy, Timestamp f_insurancePolicy) {
-         return jdbcTemplate.update(QueryUpdateAuto,
-                new Object[] { brand, model, carPrice, revisioneDate, s_insurancePolicy, f_insurancePolicy, id});
+    public int updateAuto(int id,Auto auto) {
+        Timestamp inizioPolizza=null;
+        Timestamp finePolizza=null;
+        Date date=null;
+        try {
+            inizioPolizza=Timestamp.valueOf(auto.getInizio_polizza());
+            finePolizza=Timestamp.valueOf(auto.getFine_polizza());
+            date=stringToDate(auto.getDatarevisione());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return jdbcTemplate.update(QueryUpdateAuto,
+                new Object[] {  auto.getMarca(), auto.getModello(), auto.getProprietario(), inizioPolizza, finePolizza, date, id});
     }
 
+    private Date stringToDate(String ToBeConverted)throws ParseException {
+        java.util.Date date_casted=null;
+        Date dateSql=null;
+
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        date_casted=sdf.parse(ToBeConverted);
+        dateSql=new Date(date_casted.getTime());
+
+        return dateSql;
+    }
 }

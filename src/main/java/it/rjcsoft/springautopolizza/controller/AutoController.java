@@ -35,28 +35,16 @@ public class AutoController {
         ResponseEntity<BaseResponse> responseEntity = null;
         Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), request.getDatarevisione(), request.getInizio_polizza(), request.getFine_polizza());
         AutoBuilder autoB = new AutoBuilder();
-        AutoRest auR = new AutoRest();
-        auR = autoB.buildRestFromAuto(auto);
-        Timestamp inizioPolizza2=Timestamp.valueOf(auR.getInizio_polizza());
-        Timestamp finePolizza2=Timestamp.valueOf(auR.getFine_polizza());
-        Date date=stringToDate(auR.getDatarevisione());
+        AutoRest auR = autoB.buildRestFromAuto(auto);
+
+
         try {
-            autoRepository.insertAuto(auR.getMarca(), auR.getModello(), auR.getTarga(), auR.getProprietario(), auR.getPrezzo_auto(), date, inizioPolizza2, finePolizza2);
+            autoRepository.insertAuto(auto);
         }catch (Exception e) {
             e.printStackTrace();
             return buildBaseResponse(e);
         }
         return buildBaseResponse(null);
-    }
-    private Date stringToDate(String ToBeConverted)throws  ParseException{
-        java.util.Date date_casted=null;
-        Date dateSql=null;
-
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        date_casted=sdf.parse(ToBeConverted);
-        dateSql=new Date(date_casted.getTime());
-
-        return dateSql;
     }
 
     @DeleteMapping(path="deleteAuto/{id}",
@@ -64,11 +52,7 @@ public class AutoController {
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<BaseResponse> callDeleteAuto(@PathVariable("id") int id ){
         try{
-            Auto auto = new Auto();
-            auto.setId(id);
-            AutoRest auR;
-            auR = auB.buildRestFromAuto(auto);
-            int result = autoRepository.deleteAuto(auR.getId());
+            int result = autoRepository.deleteAuto(id);
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch(Exception e){
             return buildBaseResponse(e);
@@ -86,10 +70,7 @@ public class AutoController {
             AutoBuilder autoB = new AutoBuilder();
             AutoRest auR;
             auR = autoB.buildRestFromAuto(auto);
-            Timestamp inizioPolizza2=Timestamp.valueOf(auR.getInizio_polizza());
-            Timestamp finePolizza2=Timestamp.valueOf(auR.getFine_polizza());
-            Date date = stringToDate(auR.getDatarevisione());
-            int result = autoRepository.updateAuto(auR.getId(), auR.getMarca(), auR.getModello(), auR.getProprietario(), date, inizioPolizza2, finePolizza2);
+            int result = autoRepository.updateAuto(id,auto);
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch (Exception e) {
             e.printStackTrace();
