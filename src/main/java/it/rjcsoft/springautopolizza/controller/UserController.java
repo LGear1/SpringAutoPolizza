@@ -140,7 +140,7 @@ public class UserController {
             User user = new User();
             user.setId(id);
             user.setName(request.getName());
-            user.setSurname(request.getSurname());
+            user.setSurname(request.getCognome());
             user.setCf(request.getCf());
             user.setDateOfBirth(request.getDateOfBirth());
             user.setRole(request.getRole());
@@ -151,11 +151,10 @@ public class UserController {
             }else{
                 ruolo.setRuolo("Guest");
             }
-            UserBuilder usB = new UserBuilder();
             UserRest auR;
             auR = usB.buildRestFromUser(user, ruolo);
             int result = userRepository.updateUser(auR.getName(), auR.getSurname(), auR.getCf(), auR.getDateOfBirth(),auR.getIdRole(), auR.getId());
-            if(result != 1)  throw  new SQLWarning("User non trovato!!");
+            if(result != 1)  throw new SQLWarning("User non trovato!!");
         }catch (Exception e) {
             e.printStackTrace();
             return buildBaseResponse(e);

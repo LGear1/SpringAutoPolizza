@@ -23,6 +23,7 @@ public class UserBuilder {
 
     public UserRest buildRestFromUser(User user, Ruolo ruolo){
         UserRest ur = new UserRest();
+        ur.setId(user.getId());
         ur.setName(user.getName());
         ur.setSurname(user.getSurname());
         ur.setEmail(user.getEmail());

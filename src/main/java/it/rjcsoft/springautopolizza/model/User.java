@@ -35,9 +35,9 @@ public class User {
 
     }
 
-    public User(String nome, String cognome, String email, String password, String cf, Date dateOfBirth, int ruolo) {
+    public User(String nome, String surname, String email, String password, String cf, Date dateOfBirth, int ruolo) {
         this.name = nome;
-        this.surname = cognome;
+        this.surname = surname;
         this.email = email;
         this.password = password;
         this.cf = cf;

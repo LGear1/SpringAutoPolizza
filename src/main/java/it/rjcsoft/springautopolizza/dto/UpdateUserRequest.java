@@ -5,7 +5,7 @@ public class UpdateUserRequest {
 
     private int id;
     private String name;
-    private String surname;
+    private String cognome;
     private String cf;
     private Date dateOfBirth;
     private int role;
@@ -26,12 +26,12 @@ public class UpdateUserRequest {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getCognome() {
+        return cognome;
     }
 
-    public void setSurname(String Surname) {
-        this.surname = surname;
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
 
     public String getCf() {
