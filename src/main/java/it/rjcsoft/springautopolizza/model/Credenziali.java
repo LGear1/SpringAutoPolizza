@@ -11,6 +11,12 @@ public class Credenziali {
         this.pwd = pwd;
     }
 
+    public Credenziali() {
+        this.iduser = 0;
+        this.email = null;
+        this.pwd = null;
+    }
+
     public int getIduser() {
         return iduser;
     }

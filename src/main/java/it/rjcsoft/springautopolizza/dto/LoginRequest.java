@@ -1,6 +1,6 @@
-package it.rjcsoft.springautopolizza.modelrest;
+package it.rjcsoft.springautopolizza.dto;
 
-public class LoginRest {
+public class LoginRequest {
     private String email;
     private String pwd;
 
