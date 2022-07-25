@@ -1,30 +1,19 @@
 package it.rjcsoft.springautopolizza.controller;
 
 import it.rjcsoft.springautopolizza.dto.*;
-
-import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
-
-import it.rjcsoft.springautopolizza.modelrest.AutoRest;
 import it.rjcsoft.springautopolizza.modelrest.UserRest;
-
-import it.rjcsoft.springautopolizza.modelrest.builder.AutoBuilder;
 import it.rjcsoft.springautopolizza.modelrest.builder.UserBuilder;
-
 import it.rjcsoft.springautopolizza.repository.RuoloRepository;
-import it.rjcsoft.springautopolizza.repository.RuoloRepositoryImpl;
 import it.rjcsoft.springautopolizza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Date;
 import java.sql.SQLWarning;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -122,16 +111,6 @@ public class UserController {
 
     }
 
-    private Date stringToDate(String ToBeConverted)throws  ParseException{
-        java.util.Date date_casted=null;
-        Date dateSql=null;
-
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        date_casted=sdf.parse(ToBeConverted);
-        dateSql=new Date(date_casted.getTime());
-
-        return dateSql;
-    }
     @PutMapping(path="updateUser/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
