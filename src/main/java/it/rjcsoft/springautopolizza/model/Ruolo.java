@@ -1,15 +1,28 @@
 package it.rjcsoft.springautopolizza.model;
 
+import it.rjcsoft.springautopolizza.modelrest.UserRest;
+
 public class Ruolo {
+
+    private static final String ADMIN = "Admin";
+    private static final String GUEST = "Guest";
     private int id;
     private String ruolo;
 
-    public Ruolo(int id, String ruolo) {
-        this.id = id;
-        this.ruolo = ruolo;
+    public Ruolo(UserRest request) {
+        switch(request.getIdRole()){
+            case 1:{    //Caso Admin
+                this.ruolo = ADMIN;
+                this.id = 1;
+            }
+            case 2:{    //Caso Guest
+                this.ruolo = GUEST;
+                this.id = 2;
+            }
+        }
     }
 
-    public Ruolo() {
+    public Ruolo(){
 
     }
 

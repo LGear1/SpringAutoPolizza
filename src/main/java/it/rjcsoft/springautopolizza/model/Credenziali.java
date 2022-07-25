@@ -1,14 +1,22 @@
 package it.rjcsoft.springautopolizza.model;
 
+import it.rjcsoft.springautopolizza.modelrest.UserRest;
+
 public class Credenziali {
     private int iduser;
     private String email;
     private String pwd;
 
-    public Credenziali(int iduser, String email, String pwd) {
-        this.iduser = iduser;
-        this.email = email;
-        this.pwd = pwd;
+    public Credenziali(UserRest u) {
+        this.iduser = u.getId();
+        this.email = u.getEmail();
+        this.pwd = u.getPassword();
+    }
+
+    public Credenziali() {
+        this.iduser = 0;
+        this.email = null;
+        this.pwd = null;
     }
 
     public int getIduser() {

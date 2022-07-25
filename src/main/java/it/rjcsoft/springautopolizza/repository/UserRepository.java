@@ -3,18 +3,21 @@ package it.rjcsoft.springautopolizza.repository;
 import java.sql.Date;
 import java.util.List;
 
+import it.rjcsoft.springautopolizza.model.Credenziali;
+import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
+import it.rjcsoft.springautopolizza.modelrest.UserRest;
 
 public interface UserRepository {
-    int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role);
+    int insertUser(User u, Ruolo r, Credenziali c);
 
     int deleteUser(int id);
 
-    List<User> selectUser(String cf);
+    List<UserRest> selectUser(String cf);
 
-    int selectUser2(String cf);
+    int selectUserID(String cf);
 
-    List<User> selectAllUsers();
+    List<UserRest> selectAllUsers();
 
-    int updateUser(String name, String surname, String cf, Date dateOfBirth, int role, int id);
+    int updateUser(User u);
 }

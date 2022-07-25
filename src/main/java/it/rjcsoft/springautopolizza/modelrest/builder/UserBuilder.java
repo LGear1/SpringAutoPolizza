@@ -1,8 +1,6 @@
 package it.rjcsoft.springautopolizza.modelrest.builder;
-import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
-import it.rjcsoft.springautopolizza.modelrest.AutoRest;
 import it.rjcsoft.springautopolizza.modelrest.UserRest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -14,14 +12,14 @@ import java.util.List;
 public class UserBuilder {
 
     public User buildUserAndRuoloFromUserRest(UserRest userRest){
-        User u = new User();
-        Ruolo r = new Ruolo();
+        User u = new User(userRest);
+        Ruolo r = new Ruolo(userRest);
         BeanUtils.copyProperties(userRest,u);
         r.setRuolo(userRest.getRole());
         return u;
     }
 
-    public UserRest buildRestFromUser(User user, Ruolo ruolo){
+    public UserRest buildRestFromUser(UserRest user, Ruolo ruolo){
         UserRest ur = new UserRest();
         ur.setId(user.getId());
         ur.setName(user.getName());
@@ -35,11 +33,11 @@ public class UserBuilder {
         return ur;
     }
 
-    public List<UserRest> buildRestFromUserList(List<User> user, List<Ruolo> ruolo){
+    public List<UserRest> buildRestFromUserList(List<UserRest> user, List<Ruolo> ruolo){
         List<UserRest> urList = new ArrayList<>();
-        for(User each:user){
+        for(UserRest each:user){
             for(Ruolo each2:ruolo){
-                if(each2.getId() == each.getRole()){
+                if(each2.getId() == each.getIdRole()){
                     urList.add(buildRestFromUser(each, each2));
                 }
             }

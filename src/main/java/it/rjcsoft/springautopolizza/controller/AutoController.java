@@ -42,9 +42,9 @@ public class AutoController {
             autoRepository.insertAuto(auto);
         }catch (Exception e) {
             e.printStackTrace();
-            return buildBaseResponse(e);
+            return BaseController.buildBaseResponse(e);
         }
-        return buildBaseResponse(null);
+        return BaseController.buildBaseResponse(null);
     }
 
     @DeleteMapping(path="deleteAuto/{id}",
@@ -55,9 +55,9 @@ public class AutoController {
             int result = autoRepository.deleteAuto(id);
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch(Exception e){
-            return buildBaseResponse(e);
+            return BaseController.buildBaseResponse(e);
         }
-        return buildBaseResponse(null);
+        return BaseController.buildBaseResponse(null);
     }
 
     @PutMapping(path="updateAuto/{id}",
@@ -74,9 +74,9 @@ public class AutoController {
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch (Exception e) {
             e.printStackTrace();
-            return buildBaseResponse(e);
+            return BaseController.buildBaseResponse(e);
         }
-        return buildBaseResponse(null);
+        return BaseController.buildBaseResponse(null);
     }
 
     @GetMapping(path="selectAllAuto",
@@ -125,21 +125,6 @@ public class AutoController {
             AutoResponse response = new AutoResponse(EnumStatusResponse.INTERNAL_SERVER_ERROR.getStatus(), EnumStatusResponse.INTERNAL_SERVER_ERROR.getMessage() + " - "+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private ResponseEntity<BaseResponse> buildBaseResponse(Exception e){
-        if(e == null){
-            BaseResponse response = new BaseResponse(EnumStatusResponse.OK.getStatus(), EnumStatusResponse.OK.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }else if(e instanceof SQLWarning){
-            BaseResponse response = new BaseResponse(EnumStatusResponse.CAR_NOT_FOUND.getStatus(), EnumStatusResponse.CAR_NOT_FOUND.getMessage() + " - "+ e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        else{
-            BaseResponse response = new BaseResponse(EnumStatusResponse.INTERNAL_SERVER_ERROR.getStatus(), EnumStatusResponse.INTERNAL_SERVER_ERROR.getMessage() + " - "+ e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
     
 }

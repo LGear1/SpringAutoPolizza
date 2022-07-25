@@ -1,5 +1,7 @@
 package it.rjcsoft.springautopolizza.model;
 
+import it.rjcsoft.springautopolizza.modelrest.UserRest;
+
 import java.sql.Date;
 
 public class User {
@@ -8,9 +10,6 @@ public class User {
 
     private String surname;
 
-    private String email;
-
-    private String password;
 
     private String cf;
 
@@ -18,32 +17,15 @@ public class User {
 
     private int role;
 
-    public User(int id,String name, String surname, String email, String password, String cf, Date dateOfBirth, int role){
-        this.id=id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
+    public User(UserRest u){
+        this.id = u.getId();
+        this.name = u.getName();
+        this.surname = u.getSurname();
         this.cf = cf;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
     }
 
-
-
-    public User() {
-
-    }
-
-    public User(String nome, String surname, String email, String password, String cf, Date dateOfBirth, int ruolo) {
-        this.name = nome;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.cf = cf;
-        this.dateOfBirth = dateOfBirth;
-        this.role = ruolo;
-    }
 
     public int getId() {
         return id;
@@ -66,22 +48,6 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getCf() {
@@ -115,8 +81,6 @@ public class User {
         return "User{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", cf='" + cf + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", role=" + role +
