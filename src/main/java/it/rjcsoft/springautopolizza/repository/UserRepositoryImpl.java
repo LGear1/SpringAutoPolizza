@@ -1,7 +1,9 @@
 package it.rjcsoft.springautopolizza.repository;
 
+import it.rjcsoft.springautopolizza.model.Credenziali;
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import it.rjcsoft.springautopolizza.model.User;
+import it.rjcsoft.springautopolizza.modelrest.UserRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,25 +20,22 @@ public class UserRepositoryImpl implements UserRepository{
 
     private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,?)";
     private String QueryInsertUser="Insert into test1_users (nome, cognome, cf, datanascita, ruolo_id) VALUES (?,?,?,?,?)";
-
     private String QueryUpdateUser="Update test1_users set nome=?, cognome=?, cf=?, datanascita=?, ruolo_id=?  where id=?";
     private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
-
-    private String QuerySelectUser="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.id = ?";
-
     private String QuerySelectUser2="Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tu.cf = ?";
     private String QuerySelectAllUsers="Select * from test1_users tu INNER JOIN test1_roles tr ON tr.id=tu.ruolo_id INNER JOIN test1_credenziali tc ON tc.iduser = tu.id";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int insertUser(String name, String surname, String email, String password, String cf, Date dateOfBirth, int role) {
+    public int insertUser(User u, Ruolo r, Credenziali c) {
         try {
             jdbcTemplate.update(QueryInsertUser,
-                    new Object[] {name, surname, cf, dateOfBirth, role  });
-            int id = selectUser2(cf);
+                    new Object[] {u.getName(), u.getSurname(), u.getCf(), u.getDateOfBirth(), r.getId() });
+            int id = selectUserID(u.getCf());
             jdbcTemplate.update(QueryInsertCredenziali,
-                    new Object[] {email, password, id });
+                    new Object[] {c.getEmail(), c.getPwd(), id });
             return 1;
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
@@ -50,39 +49,38 @@ public class UserRepositoryImpl implements UserRepository{
         return jdbcTemplate.update(QueryDeleteUser, args);
     }
 
-    RowMapper<User> rowMapper = (rs, rowNum) -> {
-        User user = new User();
-        user.setName(rs.getString("nome"));
-        user.setSurname(rs.getString("cognome"));
-        user.setRole(rs.getInt("ruolo_id"));
-        user.setEmail(rs.getString("email"));
-        user.setPassword(rs.getString("pwd"));
-        user.setCf(rs.getString("cf"));
-        user.setDateOfBirth(rs.getDate("datanascita"));
-        return user;
+    RowMapper<UserRest> rowMapper = (rs, rowNum) -> {
+        UserRest userR = new UserRest();
+        userR.setName(rs.getString("nome"));
+        userR.setSurname(rs.getString("cognome"));
+        userR.setIdRole(rs.getInt("ruolo_id"));
+        userR.setEmail(rs.getString("email"));
+        userR.setPassword(rs.getString("pwd"));
+        userR.setCf(rs.getString("cf"));
+        userR.setDateOfBirth(rs.getDate("datanascita"));
+        return userR;
     };
 
-    RowMapper<User> rowMapper2 = (rs, rowNum) -> {
-        User user = new User();
+    RowMapper<UserRest> rowMapper2 = (rs, rowNum) -> {
+        UserRest user = new UserRest();
         user.setId(rs.getInt("id"));
         return user;
     };
     @Override
-    public List<User> selectUser(String cf){
+    public List<UserRest> selectUser(String cf){
         return jdbcTemplate.query(QuerySelectUser2, rowMapper,
                 new Object[] {cf});
     }
 
     @Override
-    public int selectUser2(String cf){
+    public int selectUserID(String cf){
         Object[] args = new Object[] {cf};
-        List<User> u = jdbcTemplate.query(QuerySelectUser2, rowMapper2 ,args);
+        List<UserRest> u = jdbcTemplate.query(QuerySelectUser2, rowMapper2 ,args);
         return u.get(0).getId();
-
     }
 
-    RowMapper<User> rowMapper3 = (rs, rowNum) -> {
-        User user = new User();
+    RowMapper<UserRest> rowMapper3 = (rs, rowNum) -> {
+        UserRest user = new UserRest();
         user.setId(rs.getInt("id"));
         user.setName(rs.getString("nome"));
         user.setSurname(rs.getString("cognome"));
@@ -90,20 +88,20 @@ public class UserRepositoryImpl implements UserRepository{
         user.setPassword(rs.getString("pwd"));
         user.setCf(rs.getString("cf"));
         user.setDateOfBirth(rs.getDate("datanascita"));
-        user.setRole(rs.getInt("ruolo_id"));
+        user.setIdRole(rs.getInt("ruolo_id"));
         return user;
     };
 
     @Override
-    public List<User> selectAllUsers() {
+    public List<UserRest> selectAllUsers() {
         return jdbcTemplate.query(QuerySelectAllUsers, rowMapper3);
     }
 
     @Override
-    public int updateUser(String name, String surname, String cf, Date dateOfBirth, int role, int id) {
+    public int updateUser(User u) {
 
         return jdbcTemplate.update(QueryUpdateUser,
-                new Object[] { name, surname, cf, dateOfBirth, role, id});
+                new Object[] { u.getName(), u.getSurname(), u.getCf(), u.getDateOfBirth(), u.getRole(), u.getId()});
     }
 
 }
