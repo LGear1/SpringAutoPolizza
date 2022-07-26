@@ -25,7 +25,7 @@ public class LoginRepositoryImpl implements  LoginRepository{
 
 
     @Override
-    public List<Credenziali> login(String email, String pwd) {
-            return jdbcTemplate.query(QueryCheckLogin, rowMapper, new Object[] {email, pwd});
+    public List<Credenziali> login(Credenziali cred) {
+            return jdbcTemplate.query(QueryCheckLogin, rowMapper, new Object[] {cred.getEmail(), cred.getPwd()});
     }
 }

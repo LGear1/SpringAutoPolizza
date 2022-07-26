@@ -65,7 +65,7 @@ public class AutoRepositoryImpl implements AutoRepository {
         auto.setPrezzo_auto(rs.getDouble("prezzo_auto"));
         auto.setDatarevisione(""+rs.getDate("datarevisione"));
         auto.setInizio_polizza(""+rs.getTimestamp("inizio_polizza"));
-        auto.setFine_polizza_polizza(""+rs.getTimestamp("fine_polizza"));
+        auto.setFine_polizza(""+rs.getTimestamp("fine_polizza"));
         return auto;
     };
 

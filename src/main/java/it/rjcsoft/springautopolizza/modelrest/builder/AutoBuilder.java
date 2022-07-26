@@ -11,7 +11,14 @@ import java.util.List;
 public class AutoBuilder {
     public Auto buildAutoFromRest(AutoRest autorest){
         Auto a = new Auto();
-        BeanUtils.copyProperties(autorest,a);
+        a.setMarca(autorest.getMarca());
+        a.setModello(autorest.getModello());
+        a.setProprietario(autorest.getProprietario());
+        a.setPrezzo_auto(autorest.getPrezzo_auto());
+        a.setDatarevisione(autorest.getDatarevisione());
+        a.setTarga(autorest.getTarga());
+        a.setInizio_polizza(autorest.getInizio_polizza());
+        a.setFine_polizza(autorest.getFine_polizza());
         return a;
     }
 

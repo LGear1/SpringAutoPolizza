@@ -82,7 +82,7 @@ public class Auto {
     public String getDatarevisione() { return datarevisione; }
     public void setInizio_polizza(String inizio_polizza) { this.inizio_polizza = inizio_polizza; }
     public String getInizio_polizza() { return inizio_polizza; }
-    public void setFine_polizza_polizza(String fine_polizza) { this.fine_polizza = fine_polizza; }
+    public void setFine_polizza(String fine_polizza) { this.fine_polizza = fine_polizza; }
     public String getFine_polizza() { return fine_polizza; }
 
     @Override

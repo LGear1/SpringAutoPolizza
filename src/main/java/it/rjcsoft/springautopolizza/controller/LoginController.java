@@ -27,18 +27,17 @@ public class LoginController {
     @Autowired
     private LoginRepository logRepo;
 
+
     @PostMapping(path = "login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponse> callLogin(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> callLogin(@RequestBody LoginRest request) {
         Credenziali cred = new Credenziali();
         cred.setEmail(request.getEmail());
         cred.setPwd(Base64.getEncoder().encodeToString(request.getPwd().getBytes()));
-        LoginRest logRest = new LoginRest();
-        logRest = logBuild.buildRestFromLogin(cred);
         List<Credenziali> listaLog;
         try {
-            listaLog = logRepo.login(logRest.getEmail(), logRest.getPwd());
+            listaLog = logRepo.login(cred);
             if (listaLog.size() == 0) throw new SQLWarning("Credenziali non valide!!");
         } catch (Exception e) {
             e.printStackTrace();

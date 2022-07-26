@@ -31,13 +31,9 @@ public class AutoController {
     @PostMapping(path = "insertauto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> callInsert(@RequestBody InsertAutoRequest request) throws ParseException {
+    public ResponseEntity<BaseResponse> callInsert(@RequestBody AutoRest request) throws ParseException {
         ResponseEntity<BaseResponse> responseEntity = null;
-        Auto auto = new Auto(request.getMarca(), request.getModello(), request.getTarga(), request.getProprietario(), request.getPrezzo_auto(), request.getDatarevisione(), request.getInizio_polizza(), request.getFine_polizza());
-        AutoBuilder autoB = new AutoBuilder();
-        AutoRest auR = autoB.buildRestFromAuto(auto);
-
-
+        Auto auto = auB.buildAutoFromRest(request);
         try {
             autoRepository.insertAuto(auto);
         }catch (Exception e) {
@@ -63,13 +59,10 @@ public class AutoController {
     @PutMapping(path="updateAuto/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<BaseResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody UpdateAutoRequest request)    {
+    public ResponseEntity<BaseResponse> callAggiornaAuto(@PathVariable("id") int id, @RequestBody AutoRest request)    {
         try {
-            Auto auto = new Auto(request.getMarca(), request.getModello(), request.getPrezzo_auto(), request.getDatarevisione(), request.getInizio_polizza(), request.getFine_polizza());
+            Auto auto = auB.buildAutoFromRest(request);
             auto.setId(id);
-            AutoBuilder autoB = new AutoBuilder();
-            AutoRest auR;
-            auR = autoB.buildRestFromAuto(auto);
             int result = autoRepository.updateAuto(id,auto);
             if(result != 1)  throw new SQLWarning("Auto non trovata!!!");
         }catch (Exception e) {

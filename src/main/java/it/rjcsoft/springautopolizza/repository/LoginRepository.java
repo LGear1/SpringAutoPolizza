@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LoginRepository {
 
-    public List<Credenziali> login(String email, String pwd);
+    public List<Credenziali> login(Credenziali cred);
 }
