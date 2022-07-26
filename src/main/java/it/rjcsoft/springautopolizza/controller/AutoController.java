@@ -1,6 +1,5 @@
 package it.rjcsoft.springautopolizza.controller;
 
-import ch.qos.logback.core.CoreConstants;
 import it.rjcsoft.springautopolizza.dto.*;
 import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.modelrest.AutoRest;
@@ -13,11 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.sql.Date;
 import java.sql.SQLWarning;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 

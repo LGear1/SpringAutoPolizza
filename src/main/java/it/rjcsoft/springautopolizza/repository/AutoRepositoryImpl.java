@@ -19,8 +19,6 @@ public class AutoRepositoryImpl implements AutoRepository {
     private String QuerySelectAuto2 = "SELECT * FROM test1_auto WHERE id = ?";
     private String QueryInsertAuto="Insert into test1_auto (marca, modello, targa, proprietario, prezzo_auto, datarevisione, inizio_polizza, fine_polizza ) VALUES (?,?,?,?,?,?,?,?)";
     private String QueryDeleteAuto="DELETE FROM test1_auto WHERE id = ?";
-    private String QuerySelectAuto="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario WHERE proprietario = ?";
-    private String QuerySelectAutoLimitOffset="Select ta.*, tu.cf from test1_auto ta INNER JOIN test1_users tu ON tu.id=ta.proprietario LIMIT ? OFFSET ?";
     private String QueryUpdateAuto="Update test1_auto set  marca=?, modello=?, prezzo_auto=?, datarevisione=?, inizio_polizza=?, fine_polizza=? where id=?";
     private String QuerySelectAllAuto = "SELECT * FROM test1_auto";
 

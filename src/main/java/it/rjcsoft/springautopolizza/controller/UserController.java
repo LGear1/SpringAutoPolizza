@@ -29,9 +29,6 @@ public class UserController {
     @Autowired
     private UserBuilder usB;
 
-    public UserController() {
-    }
-
     @PostMapping(path = "insertuser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
