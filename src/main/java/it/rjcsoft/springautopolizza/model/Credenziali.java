@@ -1,6 +1,9 @@
 package it.rjcsoft.springautopolizza.model;
 
+import it.rjcsoft.springautopolizza.modelrest.LoginRest;
 import it.rjcsoft.springautopolizza.modelrest.UserRest;
+
+import java.util.Base64;
 
 public class Credenziali {
     private int iduser;
@@ -13,8 +16,12 @@ public class Credenziali {
         this.pwd = u.getPassword();
     }
 
-    public Credenziali() {
-        this.iduser = 0;
+    public Credenziali(LoginRest logR) {
+        this.email = logR.getEmail();
+        this.pwd = Base64.getEncoder().encodeToString(logR.getPwd().getBytes());
+    }
+
+    public Credenziali(){
         this.email = null;
         this.pwd = null;
     }

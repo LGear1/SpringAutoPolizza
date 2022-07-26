@@ -32,9 +32,7 @@ public class LoginController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponse> callLogin(@RequestBody LoginRest request) {
-        Credenziali cred = new Credenziali();
-        cred.setEmail(request.getEmail());
-        cred.setPwd(Base64.getEncoder().encodeToString(request.getPwd().getBytes()));
+        Credenziali cred = new Credenziali(request);
         List<Credenziali> listaLog;
         try {
             listaLog = logRepo.login(cred);
