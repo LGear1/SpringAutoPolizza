@@ -8,17 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
 
-    private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,?)";
+    private String QueryInsertCredenziali="Insert into test1_credenziali (email,pwd,iduser) VALUES (?,?,(select last_value from test1_users_id_seq))";
     private String QueryInsertUser="Insert into test1_users (nome, cognome, cf, datanascita, ruolo_id) VALUES (?,?,?,?,?)";
     private String QueryUpdateUser="Update test1_users set nome=?, cognome=?, cf=?, datanascita=?, ruolo_id=?  where id=?";
     private String QueryDeleteUser="DELETE FROM test1_users WHERE id = ?";
@@ -29,14 +32,15 @@ public class UserRepositoryImpl implements UserRepository{
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional()
     public int insertUser(User u, Ruolo r, Credenziali c) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(QueryInsertUser,
-                    new Object[] {u.getName(), u.getSurname(), u.getCf(), u.getDateOfBirth(), r.getId() });
+                    new Object[] {u.getName(), u.getSurname(), u.getCf(), u.getDateOfBirth(), r.getId()});
             int id = selectUserID(u.getCf());
             jdbcTemplate.update(QueryInsertCredenziali,
-                    new Object[] {c.getEmail(), c.getPwd(), id });
+                    new Object[] {c.getEmail(), c.getPwd()});
             return 1;
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
