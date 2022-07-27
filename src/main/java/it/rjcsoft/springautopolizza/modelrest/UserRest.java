@@ -1,17 +1,29 @@
 package it.rjcsoft.springautopolizza.modelrest;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.internal.NotNull;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 public class UserRest {
 
     private int id;
+    @NotNull
+    @Size(min = 2, max = 20, message = "Il nome deve avere lunghezza compresa tra 2 e 20")
     private String name;
-
+    @NotNull
+    @Size(min = 2, max = 20, message = "Il cognome deve avere lunghezza compresa tra 2 e 20")
     private String surname;
-
+    @NotNull
+    @Email(message = "Email non valida")
     private String email;
-
+    @NotNull
+    @Size(min = 8, max = 16, message = "la password deve essere almeno di 8 caratteri e massimo 16")
     private String password;
 
+    @Pattern(regexp = "^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$", message = "il Codice fiscale inserito non è valido")
     private String cf;
 
     private Date dateOfBirth;
@@ -33,15 +45,15 @@ public class UserRest {
     public UserRest() {
 
     }
-
+    @JsonProperty("Identificativo")
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    @JsonProperty("nome")
     public String getName() {
         return name;
     }

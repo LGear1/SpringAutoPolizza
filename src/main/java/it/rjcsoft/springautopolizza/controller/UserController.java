@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.sql.SQLWarning;
 import java.text.ParseException;
 import java.util.List;
@@ -32,7 +34,7 @@ public class UserController {
     @PostMapping(path = "insertuser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BaseResponse> callInsertUser(@RequestBody UserRest request) throws ParseException {
+    public ResponseEntity<BaseResponse> callInsertUser(@Valid @RequestBody UserRest request) throws ParseException {
         ResponseEntity<BaseResponse> responseEntity = null;
         User user = new User(request);
         Ruolo ruolo = new Ruolo(request);
@@ -93,16 +95,17 @@ public class UserController {
     @PutMapping(path="updateUser/{id}",
             consumes=MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<BaseResponse> callUpdateUser(@PathVariable("id") int id, @RequestBody UserRest request){
+    public ResponseEntity<UserResponse> callUpdateUser(@PathVariable("id") int id, @RequestBody UserRest request){
         try {
             User user = new User(request);
+            user.setId(id);
             int result = userRepository.updateUser(user);
             if(result != 1)  throw new SQLWarning("User non trovato!!");
         }catch (Exception e) {
             e.printStackTrace();
-            return BaseController.buildBaseResponse(e);
+            return buildUserResponse(e, null, null);
         }
-        return BaseController.buildBaseResponse(null);
+        return buildUserResponse(null, null, null);
     }
 
     private ResponseEntity<UserResponse> buildUserResponse(Exception e, List<UserRest> listaUser, List<Ruolo> listaRuoli){
