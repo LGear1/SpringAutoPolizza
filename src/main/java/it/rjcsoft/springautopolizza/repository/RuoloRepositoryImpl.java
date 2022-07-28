@@ -2,7 +2,6 @@ package it.rjcsoft.springautopolizza.repository;
 
 import it.rjcsoft.springautopolizza.model.Ruolo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

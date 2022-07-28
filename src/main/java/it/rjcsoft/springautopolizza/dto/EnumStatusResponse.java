@@ -1,6 +1,5 @@
 package it.rjcsoft.springautopolizza.dto;
 
-import org.springframework.web.client.HttpServerErrorException;
 
 public enum EnumStatusResponse {
 

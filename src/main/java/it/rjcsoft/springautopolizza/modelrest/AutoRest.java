@@ -1,7 +1,5 @@
 package it.rjcsoft.springautopolizza.modelrest;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 
 public class AutoRest {
     private int id;

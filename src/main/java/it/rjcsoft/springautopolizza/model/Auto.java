@@ -1,8 +1,5 @@
 package it.rjcsoft.springautopolizza.model;
 
-import java.sql.Timestamp;
-import java.sql.Date;
-
 public class Auto {
     private int id;
     private String marca;

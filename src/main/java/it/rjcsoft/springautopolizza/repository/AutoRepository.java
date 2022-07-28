@@ -2,8 +2,6 @@ package it.rjcsoft.springautopolizza.repository;
 
 import it.rjcsoft.springautopolizza.model.Auto;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 public interface AutoRepository {

@@ -1,6 +1,5 @@
 package it.rjcsoft.springautopolizza.repository;
 
-import java.sql.Date;
 import java.util.List;
 
 import it.rjcsoft.springautopolizza.model.Credenziali;
