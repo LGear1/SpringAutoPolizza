@@ -34,11 +34,9 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     @Transactional()
     public int insertUser(User u, Ruolo r, Credenziali c) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
             jdbcTemplate.update(QueryInsertUser,
                     new Object[] {u.getName(), u.getSurname(), u.getCf(), u.getDateOfBirth(), r.getId()});
-            int id = selectUserID(u.getCf());
             jdbcTemplate.update(QueryInsertCredenziali,
                     new Object[] {c.getEmail(), c.getPwd()});
             return 1;
