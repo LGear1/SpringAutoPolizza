@@ -30,7 +30,6 @@ public class UserRest {
 
     private int idRole;
     private String role;
-    private int iTuoiDiritti;
 
     public UserRest(String name, String surname, String email, String password, String cf, Date dateOfBirth, String role){
         this.id = id;
