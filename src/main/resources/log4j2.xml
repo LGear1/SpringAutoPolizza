@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<xsl version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions"  exclude-result-prefixes="xs fn"/>
 <Configuration status="DEBUG">
     <Appenders>
         <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="LogToFile" fileName="logs/app.log">
+
+        <xsl:variable name="dateNow" select="current-dateTime()"/>
+        <xsl:variable name="dateNow2" select="current-date()"/>
+
+        <File name="LogToFile" fileName="Log$dateNow2.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
