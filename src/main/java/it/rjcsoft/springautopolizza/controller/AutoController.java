@@ -5,6 +5,8 @@ import it.rjcsoft.springautopolizza.model.Auto;
 import it.rjcsoft.springautopolizza.modelrest.AutoRest;
 import it.rjcsoft.springautopolizza.modelrest.builder.AutoBuilder;
 import it.rjcsoft.springautopolizza.repository.AutoRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/auto")
 public class AutoController {
+
+    @Autowired
+    private static final Logger logger = LogManager.getLogger(AutoController.class);
+
     @Autowired
     private AutoRepository autoRepository;
     @Autowired
@@ -96,6 +102,7 @@ public class AutoController {
             return buildAutoResponse(null, a);
         }catch(Exception e){
             System.out.println(e);
+            logger.error("Car not found");
             return buildAutoResponse(e, null);
         }
 
