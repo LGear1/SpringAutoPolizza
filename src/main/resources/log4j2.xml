@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fn="http://www.w3.org/2005/xpath-functions"  exclude-result-prefixes="xs fn"/>
-<Configuration status="DEBUG">
+<Configuration status="warn">
+    <Properties>
+        <Property name="basePath">logs</Property>
+    </Properties>
+
     <Appenders>
-        <Console name="LogToConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </Console>
-
-        <xsl:variable name="dateNow" select="current-dateTime()"/>
-        <xsl:variable name="dateNow2" select="current-date()"/>
-
-        <File name="LogToFile" fileName="Log$dateNow2.log">
+        <RollingFile name="fileLogger"
+                     fileName="logs/app-${date:yyyy-MM-dd}.log"
+                     filePattern="logs/app-${date:yyyy-MM-dd}.log">
             <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
             </PatternLayout>
-        </File>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="19" />
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.mkyong" level="debug" additivity="false">
-            <AppenderRef ref="LogToFile"/>
-            <AppenderRef ref="LogToConsole"/>
-        </Logger>
-        <Logger name="org.springframework.boot" level="error" additivity="false">
-            <AppenderRef ref="LogToConsole"/>
-        </Logger>
-        <Root level="error">
-            <AppenderRef ref="LogToFile"/>
-            <AppenderRef ref="LogToConsole"/>
+        <Root level="info" additivity="false">
+            <appender-ref ref="fileLogger" />
         </Root>
     </Loggers>
 </Configuration>
