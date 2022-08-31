@@ -5,6 +5,11 @@
     </Properties>
 
     <Appenders>
+        <!-- Console Appender -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%style{%date{DEFAULT}}{yellow}%highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green}%message"/>
+        </Console>
+        <!-- RollingFile Appender -->
         <RollingFile name="fileLogger"
                      fileName="logs/app-${date:yyyy-MM-dd}.log"
                      filePattern="logs/app-${date:yyyy-MM-dd}.log">
@@ -20,6 +25,7 @@
     </Appenders>
     <Loggers>
         <Root level="info" additivity="false">
+            <appender-ref ref="ConsoleAppender" />
             <appender-ref ref="fileLogger" />
         </Root>
     </Loggers>
