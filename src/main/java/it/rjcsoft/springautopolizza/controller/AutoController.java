@@ -89,6 +89,18 @@ public class AutoController {
 
     }
 
+    @GetMapping(path="selectAllAutoForBrowser")
+    public List<Auto> autoResponse(){
+        try{
+            List<Auto> a = autoRepository.selectAllAuto();
+            if(a.size() == 0) throw new SQLWarning("Auto non trovata!!!");
+            return a;
+        }catch(Exception e){
+            return null;
+
+        }
+    }
+
     @GetMapping(path="selectAuto/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

@@ -61,6 +61,5 @@ public class LoginController {
     @GetMapping
     public String callL() {
         return "Ciao";
-
     }
 }

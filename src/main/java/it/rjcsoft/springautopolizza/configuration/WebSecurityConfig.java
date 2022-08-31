@@ -27,13 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "SELECT email, pwd, enable " +
                         "FROM test1_credenziali " +
                         "WHERE email=?")
-                .authoritiesByUsernameQuery("Select * from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tc.email = ?");
+                .authoritiesByUsernameQuery("Select email, ruolo from test1_users tu JOIN test1_roles tr ON tr.id=ruolo_id JOIN test1_credenziali tc ON tc.iduser=tu.id WHERE tc.email = ?");
     }
 
     @Override
     protected  void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
-                .antMatchers("/auto").hasRole("Admin")
+                .antMatchers("/auto/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
