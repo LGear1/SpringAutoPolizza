@@ -4256,3 +4256,31 @@ javax.servlet.ServletException: Circular view path [403]: would dispatch back to
 [INFO ] 2022-08-31 15:54:23.007 [main] SpringAutoPolizzaApplication - Started SpringAutoPolizzaApplication in 2.419 seconds (JVM running for 3.09)
 [INFO ] 2022-08-31 15:54:45.331 [SpringApplicationShutdownHook] HikariDataSource - HikariPool-1 - Shutdown initiated...
 [INFO ] 2022-08-31 15:54:45.333 [SpringApplicationShutdownHook] HikariDataSource - HikariPool-1 - Shutdown completed.
+[INFO ] 2022-08-31 15:56:20.030 [background-preinit] Version - HV000001: Hibernate Validator 6.2.3.Final
+[INFO ] 2022-08-31 15:56:20.071 [main] SpringAutoPolizzaApplication - Starting SpringAutoPolizzaApplication using Java 18.0.2 on Salvatore with PID 23724 (C:\Users\fatta\OneDrive\Desktop\Progetto\SpringAutoPolizza\target\classes started by fatta in C:\Users\fatta\OneDrive\Desktop\Progetto\SpringAutoPolizza)
+[INFO ] 2022-08-31 15:56:20.077 [main] SpringAutoPolizzaApplication - No active profile set, falling back to 1 default profile: "default"
+[INFO ] 2022-08-31 15:56:20.717 [main] RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[INFO ] 2022-08-31 15:56:20.732 [main] RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+[INFO ] 2022-08-31 15:56:21.195 [main] TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[INFO ] 2022-08-31 15:56:21.208 [main] Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[INFO ] 2022-08-31 15:56:21.208 [main] StandardService - Starting service [Tomcat]
+[INFO ] 2022-08-31 15:56:21.208 [main] StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.64]
+[INFO ] 2022-08-31 15:56:21.300 [main] [/] - Initializing Spring embedded WebApplicationContext
+[INFO ] 2022-08-31 15:56:21.301 [main] ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1178 ms
+[INFO ] 2022-08-31 15:56:21.340 [main] AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: private static final org.apache.logging.log4j.Logger it.rjcsoft.springautopolizza.configuration.MvcConfig.logger
+[INFO ] 2022-08-31 15:56:21.431 [main] AutowiredAnnotationBeanPostProcessor - Autowired annotation is not supported on static fields: private static final org.apache.logging.log4j.Logger it.rjcsoft.springautopolizza.controller.AutoController.logger
+[INFO ] 2022-08-31 15:56:21.598 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6c33da7a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@69aabcb0, org.springframework.security.web.context.SecurityContextPersistenceFilter@55c57422, org.springframework.security.web.header.HeaderWriterFilter@76f2dad9, org.springframework.security.web.csrf.CsrfFilter@53aa2fc9, org.springframework.security.web.authentication.logout.LogoutFilter@59845579, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@25a1a012, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@4a058df8, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@32a72c4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@335f5c69, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6dca31eb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@15986dd5, org.springframework.security.web.session.SessionManagementFilter@72b0a004, org.springframework.security.web.access.ExceptionTranslationFilter@42e4e589, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4b325930]
+[INFO ] 2022-08-31 15:56:21.888 [main] HikariDataSource - HikariPool-1 - Starting...
+[INFO ] 2022-08-31 15:56:22.008 [main] HikariDataSource - HikariPool-1 - Start completed.
+[INFO ] 2022-08-31 15:56:22.139 [main] Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[INFO ] 2022-08-31 15:56:22.161 [main] TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[INFO ] 2022-08-31 15:56:22.169 [main] SpringAutoPolizzaApplication - Started SpringAutoPolizzaApplication in 2.392 seconds (JVM running for 3.08)
+[INFO ] 2022-08-31 15:56:22.544 [http-nio-8080-exec-1] [/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[ERROR] 2022-08-31 15:56:29.298 [http-nio-8080-exec-4] AutoController -  [Error 403 - Access Denied]
+[ERROR] 2022-08-31 15:56:38.681 [http-nio-8080-exec-5] AutoController -  [Error 403 - Access Denied]
+[ERROR] 2022-08-31 15:56:44.266 [http-nio-8080-exec-6] AutoController -  [Error 403 - Access Denied]
+[ERROR] 2022-08-31 15:56:46.376 [http-nio-8080-exec-7] AutoController -  [Error 403 - Access Denied]
+[ERROR] 2022-08-31 15:56:56.985 [http-nio-8080-exec-3] AutoController -  [Error 403 - Access Denied]
+[ERROR] 2022-08-31 15:57:48.935 [http-nio-8080-exec-10] AutoController -  [Error 403 - Access Denied]
+[INFO ] 2022-08-31 15:58:57.568 [SpringApplicationShutdownHook] HikariDataSource - HikariPool-1 - Shutdown initiated...
+[INFO ] 2022-08-31 15:58:57.570 [SpringApplicationShutdownHook] HikariDataSource - HikariPool-1 - Shutdown completed.
